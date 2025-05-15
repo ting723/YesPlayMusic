@@ -1,0 +1,96 @@
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+import { VitePWA } from 'vite-plugin-pwa';
+import svgLoader from 'vite-svg-loader';
+import electron from 'vite-plugin-electron';
+import electronRenderer from 'vite-plugin-electron-renderer';
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
+export default defineConfig({
+
+  base: './',
+  optimizeDeps: {
+    include: ['NeteaseCloudMusicApi']
+  },
+  plugins: [
+    vue(),
+    svgLoader(),
+    VitePWA({
+      manifest: {
+        name: 'YesPlayMusic',
+        theme_color: '#ffffff00',
+        background_color: '#335eea',
+        icons: [
+          {
+            src: 'img/icons/favicon-32x32.png',
+            sizes: '32x32',
+            type: 'image/png',
+          },
+        ],
+      },
+    }),
+    // 在electron插件配置中添加vite.resolve配置
+    electron([
+      {
+        entry: 'src/background.js',
+        vite: {
+          resolve: {
+            alias: {
+              '@': path.resolve(__dirname, 'src'),
+            },
+            extensions: ['.js', '.json', '.node'],
+          },
+          build: {
+            outDir: 'dist_electron',
+            rollupOptions: {
+              external: [
+                '@unblockneteasemusic/rust-napi',
+                'electron/tray',
+                'electron/mpris',
+                'electron/globalShortcut',
+              ],
+            },
+          },
+        },
+      },
+    ]),
+    electronRenderer(),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    },
+    fallback: {
+      path: 'path-browserify',
+      fs: false,
+    },
+  },
+  server: {
+    port: 8081,
+    strictPort: true,
+    host: '127.0.0.1',
+    proxy: {
+      '^/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+  build: {
+    sourcemap: false,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+      },
+      external: [
+        '@unblockneteasemusic/rust-napi/darwin-x64',
+        '@unblockneteasemusic/rust-napi/darwin-arm64',
+      ],
+    },
+  },
+});

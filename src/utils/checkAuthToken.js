@@ -6,3 +6,10 @@ import path from 'path';
 if (!fs.existsSync(path.resolve(os.tmpdir(), 'anonymous_token'))) {
   fs.writeFileSync(path.resolve(os.tmpdir(), 'anonymous_token'), '', 'utf-8');
 }
+
+export default function checkAuthToken() {
+  // 确保匿名token文件存在
+  if (!fs.existsSync(path.resolve(os.tmpdir(), 'anonymous_token'))) {
+    fs.writeFileSync(path.resolve(os.tmpdir(), 'anonymous_token'), '', 'utf-8');
+  }
+}

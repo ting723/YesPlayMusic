@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 import state from './state';
 import mutations from './mutations';
 import actions from './actions';
@@ -9,21 +8,18 @@ import Player from '@/utils/Player';
 import saveToLocalStorage from './plugins/localStorage';
 import { getSendSettingsPlugin } from './plugins/sendSettings';
 
-Vue.use(Vuex);
-
 let plugins = [saveToLocalStorage];
 if (process.env.IS_ELECTRON === true) {
   let sendSettings = getSendSettingsPlugin();
   plugins.push(sendSettings);
 }
-const options = {
+
+const store = createStore({
   state,
   mutations,
   actions,
   plugins,
-};
-
-const store = new Vuex.Store(options);
+});
 
 if ([undefined, null].includes(store.state.settings.lang)) {
   const defaultLang = 'en';

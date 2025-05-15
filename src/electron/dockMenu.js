@@ -1,4 +1,4 @@
-const { Menu } = require('electron');
+import { Menu } from 'electron';
 
 export function createDockMenu(win) {
   return Menu.buildFromTemplate([

@@ -1,4 +1,6 @@
-'use strict';
+// 由于使用了 ES modules，此处不需要 'use strict' 声明
+// 文件已经以模块形式运行，自动处于严格模式
+import path from 'path';
 import {
   app,
   protocol,
@@ -16,24 +18,54 @@ import {
   isDevelopment,
   isCreateTray,
   isCreateMpris,
-} from '@/utils/platform';
-import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
-import { startNeteaseMusicApi } from './electron/services';
-import { initIpcMain } from './electron/ipcMain.js';
-import { createMenu } from './electron/menu';
-import { createTray } from '@/electron/tray';
-import { createTouchBar } from './electron/touchBar';
-import { createDockMenu } from './electron/dockMenu';
-import { registerGlobalShortcut } from './electron/globalShortcut';
-import { autoUpdater } from 'electron-updater';
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+} from './utils/platform.js';
+
 import { EventEmitter } from 'events';
 import express from 'express';
 import expressProxy from 'express-http-proxy';
 import Store from 'electron-store';
-import { createMpris, createDbus } from '@/electron/mpris';
 import { spawn } from 'child_process';
-const clc = require('cli-color');
+import clc from 'cli-color';
+import 'module-alias/register.js';
+
+let autoUpdater;
+let installExtension, VUEJS_DEVTOOLS;
+let startNeteaseMusicApi, initIpcMain, createMenu, createTray, createTouchBar, createDockMenu, registerGlobalShortcut, createMpris, createDbus;
+
+async function loadDependencies() {
+  const pkg = await import('electron-updater');
+  autoUpdater = pkg.autoUpdater;
+  
+  const devtoolsInstaller = await import('electron-devtools-installer');
+  installExtension = devtoolsInstaller.default;
+  VUEJS_DEVTOOLS = devtoolsInstaller.VUEJS_DEVTOOLS;
+  
+  const services = await import('./electron/services.js');
+  startNeteaseMusicApi = services.startNeteaseMusicApi;
+  
+  const ipcMain = await import('./electron/ipcMain.js');
+  initIpcMain = ipcMain.initIpcMain;
+  
+  const menu = await import('./electron/menu.js');
+  createMenu = menu.createMenu;
+  
+  const tray = await import('./electron/tray.js');
+  createTray = tray.createTray;
+  
+  const touchBar = await import('./electron/touchBar.js');
+  createTouchBar = touchBar.createTouchBar;
+  
+  const dockMenu = await import('./electron/dockMenu.js');
+  createDockMenu = dockMenu.createDockMenu;
+  
+  const globalShortcut = await import('./electron/globalShortcut.js');
+  registerGlobalShortcut = globalShortcut.registerGlobalShortcut;
+  
+  const mpris = await import('./electron/mpris.js');
+  createMpris = mpris.createMpris;
+  createDbus = mpris.createDbus;
+}
+
 const log = text => {
   console.log(`${clc.blueBright('[background.js]')} ${text}`);
 };
@@ -98,22 +130,37 @@ class Background {
     this.init();
   }
 
-  init() {
+  async init() {
     log('initializing');
 
-    // Make sure the app is singleton.
-    if (!app.requestSingleInstanceLock()) return app.quit();
+    try {
+      // Scheme must be registered before the app is ready
+      protocol.registerSchemesAsPrivileged([
+        { scheme: 'app', privileges: { secure: true, standard: true } },
+      ]);
+    } catch (error) {
+      console.error('Failed to register protocol scheme:', error);
+      app.quit();
+      return;
+    }
 
-    // start netease music api
-    this.neteaseMusicAPI = startNeteaseMusicApi();
+    try {
+      // Load all dependencies first
+      await loadDependencies();
+
+      // Make sure the app is singleton.
+      if (!app.requestSingleInstanceLock()) return app.quit();
+
+      // start netease music api
+      await this.startNeteaseMusicApi();
+    } catch (error) {
+      console.error('Failed to initialize:', error);
+      app.quit();
+      return;
+    }
 
     // create Express app
     this.createExpressApp();
-
-    // Scheme must be registered before the app is ready
-    protocol.registerSchemesAsPrivileged([
-      { scheme: 'app', privileges: { secure: true, standard: true } },
-    ]);
 
     // handle app events
     this.handleAppEvents();
@@ -125,6 +172,11 @@ class Background {
         'HardwareMediaKeyHandling,MediaSessionService'
       );
     }
+  }
+
+  async startNeteaseMusicApi() {
+    const api = await startNeteaseMusicApi();
+    this.neteaseMusicAPI = api;
   }
 
   async initDevtools() {
@@ -153,8 +205,8 @@ class Background {
     log('creating express app');
 
     const expressApp = express();
-    expressApp.use('/', express.static(__dirname + '/'));
-    expressApp.use('/api', expressProxy('http://127.0.0.1:10754'));
+    expressApp.use('/', express.static(/* @vite-ignore */ new URL('.', import.meta.url).pathname));
+    expressApp.use('/api', expressProxy('http://127.0.0.1:3000'));
     expressApp.use('/player', (req, res) => {
       this.window.webContents
         .executeJavaScript('window.yesplaymusic.player')
@@ -192,7 +244,7 @@ class Background {
         webSecurity: false,
         nodeIntegration: true,
         enableRemoteModule: true,
-        contextIsolation: false,
+        contextIsolation: false
       },
       backgroundColor:
         ((appearance === undefined || appearance === 'auto') &&
@@ -246,16 +298,20 @@ class Background {
     // hide menu bar on Microsoft Windows and Linux
     this.window.setMenuBarVisibility(false);
 
-    if (process.env.WEBPACK_DEV_SERVER_URL) {
-      // Load the url of the dev server if in development mode
+    if (isDevelopment) {
+      // Load the url of the dev server in development mode
       this.window.loadURL(
         showLibraryDefault
-          ? `${process.env.WEBPACK_DEV_SERVER_URL}/#/library`
-          : process.env.WEBPACK_DEV_SERVER_URL
+          ? 'http://127.0.0.1:8081/#/library'
+          : 'http://127.0.0.1:8081'
       );
       if (!process.env.IS_TEST) this.window.webContents.openDevTools();
     } else {
-      createProtocol('app');
+      // In production, load from the local express server
+      protocol.registerFileProtocol('app', (request, callback) => {
+        const url = request.url.substr(6);
+        callback({ path: path.normalize(`${new URL('.', import.meta.url).pathname}/${url}`) });
+      });
       this.window.loadURL(
         showLibraryDefault
           ? 'http://localhost:27232/#/library'

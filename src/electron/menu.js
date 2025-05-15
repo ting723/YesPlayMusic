@@ -1,9 +1,6 @@
-import defaultShortcuts from '@/utils/shortcuts';
-const { app, Menu } = require('electron');
-// import { autoUpdater } from "electron-updater"
-// const version = app.getVersion();
-
-const isMac = process.platform === 'darwin';
+import defaultShortcuts from '../utils/shortcuts.js';
+import { app, Menu } from 'electron';
+import { isMac } from '../utils/platform.js';
 
 export function createMenu(win, store) {
   let shortcuts = store.get('settings.shortcuts');

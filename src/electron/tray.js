@@ -1,7 +1,7 @@
 /* global __static */
 import path from 'path';
 import { app, nativeImage, Tray, Menu, nativeTheme } from 'electron';
-import { isLinux } from '@/utils/platform';
+import { isLinux } from '../utils/platform.js';
 
 function createMenuTemplate(win) {
   return [

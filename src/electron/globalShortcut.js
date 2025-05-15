@@ -1,7 +1,6 @@
-import defaultShortcuts from '@/utils/shortcuts';
-const { globalShortcut } = require('electron');
-
-const clc = require('cli-color');
+import defaultShortcuts from '../utils/shortcuts.js';
+import { globalShortcut } from 'electron';
+import clc from 'cli-color';
 const log = text => {
   console.log(`${clc.blueBright('[globalShortcut.js]')} ${text}`);
 };

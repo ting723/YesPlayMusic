@@ -1,617 +1,658 @@
-module.exports = [
+import user_update from 'NeteaseCloudMusicApi/module/user_update.js';
+import user_subcount from 'NeteaseCloudMusicApi/module/user_subcount.js';
+import user_replacephone from 'NeteaseCloudMusicApi/module/user_replacephone.js';
+import user_record from 'NeteaseCloudMusicApi/module/user_record.js';
+import user_playlist from 'NeteaseCloudMusicApi/module/user_playlist.js';
+import user_level from 'NeteaseCloudMusicApi/module/user_level.js';
+import user_follows from 'NeteaseCloudMusicApi/module/user_follows.js';
+import user_followeds from 'NeteaseCloudMusicApi/module/user_followeds.js';
+import user_event from 'NeteaseCloudMusicApi/module/user_event.js';
+import user_dj from 'NeteaseCloudMusicApi/module/user_dj.js';
+import user_detail from 'NeteaseCloudMusicApi/module/user_detail.js';
+import user_cloud_detail from 'NeteaseCloudMusicApi/module/user_cloud_detail.js';
+import user_cloud_del from 'NeteaseCloudMusicApi/module/user_cloud_del.js';
+import user_cloud from 'NeteaseCloudMusicApi/module/user_cloud.js';
+import user_bindingcellphone from 'NeteaseCloudMusicApi/module/user_bindingcellphone.js';
+import user_binding from 'NeteaseCloudMusicApi/module/user_binding.js';
+import user_audio from 'NeteaseCloudMusicApi/module/user_audio.js';
+import user_account from 'NeteaseCloudMusicApi/module/user_account.js';
+import toplist_detail from 'NeteaseCloudMusicApi/module/toplist_detail.js';
+import toplist_artist from 'NeteaseCloudMusicApi/module/toplist_artist.js';
+import toplist from 'NeteaseCloudMusicApi/module/toplist.js';
+import topic_sublist from 'NeteaseCloudMusicApi/module/topic_sublist.js';
+import topic_detail_event_hot from 'NeteaseCloudMusicApi/module/topic_detail_event_hot.js';
+import topic_detail from 'NeteaseCloudMusicApi/module/topic_detail.js';
+import top_song from 'NeteaseCloudMusicApi/module/top_song.js';
+import top_playlist_highquality from 'NeteaseCloudMusicApi/module/top_playlist_highquality.js';
+import top_playlist from 'NeteaseCloudMusicApi/module/top_playlist.js';
+import top_mv from 'NeteaseCloudMusicApi/module/top_mv.js';
+import top_list from 'NeteaseCloudMusicApi/module/top_list.js';
+import top_artists from 'NeteaseCloudMusicApi/module/top_artists.js';
+import top_album from 'NeteaseCloudMusicApi/module/top_album.js';
+import song_url from 'NeteaseCloudMusicApi/module/song_url.js';
+import song_download_url from 'NeteaseCloudMusicApi/module/song_download_url.js';
+import song_detail from 'NeteaseCloudMusicApi/module/song_detail.js';
+import simi_mv from 'NeteaseCloudMusicApi/module/simi_mv.js';
+import simi_artist from 'NeteaseCloudMusicApi/module/simi_artist.js';
+import search from 'NeteaseCloudMusicApi/module/search.js';
+import scrobble from 'NeteaseCloudMusicApi/module/scrobble.js';
+import recommend_songs from 'NeteaseCloudMusicApi/module/recommend_songs.js';
+import recommend_resource from 'NeteaseCloudMusicApi/module/recommend_resource.js';
+
+export default [
   {
     identifier: 'user_update',
     route: '/user/update',
-    module: require('NeteaseCloudMusicApi/module/user_update'),
+    module: user_update.default,
   },
   {
     identifier: 'user_subcount',
     route: '/user/subcount',
-    module: require('NeteaseCloudMusicApi/module/user_subcount'),
+    module: user_subcount.default,
   },
   {
     identifier: 'user_replacephone',
     route: '/user/replacephone',
-    module: require('NeteaseCloudMusicApi/module/user_replacephone'),
+    module: user_replacephone.default,
   },
   {
     identifier: 'user_record',
     route: '/user/record',
-    module: require('NeteaseCloudMusicApi/module/user_record'),
+    module: user_record.default,
   },
   {
     identifier: 'user_playlist',
     route: '/user/playlist',
-    module: require('NeteaseCloudMusicApi/module/user_playlist'),
+    module: user_playlist.default,
   },
   {
     identifier: 'user_level',
     route: '/user/level',
-    module: require('NeteaseCloudMusicApi/module/user_level'),
+    module: user_level.default,
   },
   {
     identifier: 'user_follows',
     route: '/user/follows',
-    module: require('NeteaseCloudMusicApi/module/user_follows'),
+    module: user_follows.default,
   },
   {
     identifier: 'user_followeds',
     route: '/user/followeds',
-    module: require('NeteaseCloudMusicApi/module/user_followeds'),
+    module: user_followeds.default,
   },
   {
     identifier: 'user_event',
     route: '/user/event',
-    module: require('NeteaseCloudMusicApi/module/user_event'),
+    module: user_event.default,
   },
   {
     identifier: 'user_dj',
     route: '/user/dj',
-    module: require('NeteaseCloudMusicApi/module/user_dj'),
+    module: user_dj.default,
   },
   {
     identifier: 'user_detail',
     route: '/user/detail',
-    module: require('NeteaseCloudMusicApi/module/user_detail'),
+    module: user_detail.default,
   },
   {
     identifier: 'user_cloud_detail',
     route: '/user/cloud/detail',
-    module: require('NeteaseCloudMusicApi/module/user_cloud_detail'),
+    module: user_cloud_detail.default,
   },
   {
     identifier: 'user_cloud_del',
     route: '/user/cloud/del',
-    module: require('NeteaseCloudMusicApi/module/user_cloud_del'),
+    module: user_cloud_del.default,
   },
   {
     identifier: 'user_cloud',
     route: '/user/cloud',
-    module: require('NeteaseCloudMusicApi/module/user_cloud'),
+    module: user_cloud.default,
   },
   {
     identifier: 'user_bindingcellphone',
     route: '/user/bindingcellphone',
-    module: require('NeteaseCloudMusicApi/module/user_bindingcellphone'),
+    module: user_bindingcellphone.default,
   },
   {
     identifier: 'user_binding',
     route: '/user/binding',
-    module: require('NeteaseCloudMusicApi/module/user_binding'),
+    module: user_binding.default,
   },
   {
     identifier: 'user_audio',
     route: '/user/audio',
-    module: require('NeteaseCloudMusicApi/module/user_audio'),
+    module: user_audio.default,
   },
   {
     identifier: 'user_account',
     route: '/user/account',
-    module: require('NeteaseCloudMusicApi/module/user_account'),
+    module: user_account.default,
   },
   {
     identifier: 'toplist_detail',
     route: '/toplist/detail',
-    module: require('NeteaseCloudMusicApi/module/toplist_detail'),
+    module: toplist_detail.default,
   },
   {
     identifier: 'toplist_artist',
     route: '/toplist/artist',
-    module: require('NeteaseCloudMusicApi/module/toplist_artist'),
+    module: toplist_artist.default,
   },
   {
     identifier: 'toplist',
     route: '/toplist',
-    module: require('NeteaseCloudMusicApi/module/toplist'),
+    module: toplist.default,
   },
   {
     identifier: 'topic_sublist',
     route: '/topic/sublist',
-    module: require('NeteaseCloudMusicApi/module/topic_sublist'),
+    module: topic_sublist.default,
   },
   {
     identifier: 'topic_detail_event_hot',
     route: '/topic/detail/event/hot',
-    module: require('NeteaseCloudMusicApi/module/topic_detail_event_hot'),
+    module: topic_detail_event_hot.default,
   },
   {
     identifier: 'topic_detail',
     route: '/topic/detail',
-    module: require('NeteaseCloudMusicApi/module/topic_detail'),
+    module: topic_detail.default,
   },
   {
     identifier: 'top_song',
     route: '/top/song',
-    module: require('NeteaseCloudMusicApi/module/top_song'),
+    module: top_song.default,
   },
   {
     identifier: 'top_playlist_highquality',
     route: '/top/playlist/highquality',
-    module: require('NeteaseCloudMusicApi/module/top_playlist_highquality'),
+    module: top_playlist_highquality.default,
   },
   {
     identifier: 'top_playlist',
     route: '/top/playlist',
-    module: require('NeteaseCloudMusicApi/module/top_playlist'),
+    module: () => import('NeteaseCloudMusicApi/module/top_playlist.js').then(m => m.default),
   },
   {
     identifier: 'top_mv',
     route: '/top/mv',
-    module: require('NeteaseCloudMusicApi/module/top_mv'),
+    module: () => import('NeteaseCloudMusicApi/module/top_mv.js').then(m => m.default),
   },
   {
     identifier: 'top_list',
     route: '/top/list',
-    module: require('NeteaseCloudMusicApi/module/top_list'),
+    module: () => import('NeteaseCloudMusicApi/module/top_list.js').then(m => m.default),
   },
   {
     identifier: 'top_artists',
     route: '/top/artists',
-    module: require('NeteaseCloudMusicApi/module/top_artists'),
+    module: () => import('NeteaseCloudMusicApi/module/top_artists.js').then(m => m.default),
   },
   {
     identifier: 'top_album',
     route: '/top/album',
-    module: require('NeteaseCloudMusicApi/module/top_album'),
+    module: () => import('NeteaseCloudMusicApi/module/top_album.js').then(m => m.default),
   },
   {
     identifier: 'song_url',
     route: '/song/url',
-    module: require('NeteaseCloudMusicApi/module/song_url'),
+    module: () => import('NeteaseCloudMusicApi/module/song_url.js').then(m => m.default),
   },
   {
     identifier: 'song_download_url',
     route: '/song/download/url',
-    module: require('NeteaseCloudMusicApi/module/song_download_url'),
+    module: () => import('NeteaseCloudMusicApi/module/song_download_url.js').then(m => m.default),
   },
   {
     identifier: 'song_detail',
     route: '/song/detail',
-    module: require('NeteaseCloudMusicApi/module/song_detail'),
+    module: () => import('NeteaseCloudMusicApi/module/song_detail.js').then(m => m.default),
   },
   {
     identifier: 'simi_mv',
     route: '/simi/mv',
-    module: require('NeteaseCloudMusicApi/module/simi_mv'),
+    module: () => import('NeteaseCloudMusicApi/module/simi_mv.js').then(m => m.default),
   },
   {
     identifier: 'simi_artist',
     route: '/simi/artist',
-    module: require('NeteaseCloudMusicApi/module/simi_artist'),
+    module: () => import('NeteaseCloudMusicApi/module/simi_artist.js').then(m => m.default),
   },
   {
     identifier: 'search',
     route: '/search',
-    module: require('NeteaseCloudMusicApi/module/search'),
+    module: () => import('NeteaseCloudMusicApi/module/search.js').then(m => m.default),
   },
   {
     identifier: 'scrobble',
     route: '/scrobble',
-    module: require('NeteaseCloudMusicApi/module/scrobble'),
+    module: () => import('NeteaseCloudMusicApi/module/scrobble.js').then(m => m.default),
   },
   {
     identifier: 'recommend_songs',
     route: '/recommend/songs',
-    module: require('NeteaseCloudMusicApi/module/recommend_songs'),
+    module: () => import('NeteaseCloudMusicApi/module/recommend_songs.js').then(m => m.default),
   },
   {
     identifier: 'recommend_resource',
     route: '/recommend/resource',
-    module: require('NeteaseCloudMusicApi/module/recommend_resource'),
+    module: () => import('NeteaseCloudMusicApi/module/recommend_resource.js').then(m => m.default),
   },
   {
     identifier: 'playmode_intelligence_list',
     route: '/playmode/intelligence/list',
-    module: require('NeteaseCloudMusicApi/module/playmode_intelligence_list'),
+    module: () => import('NeteaseCloudMusicApi/module/playmode_intelligence_list.js').then(m => m.default),
   },
   {
     identifier: 'playlist_video_recent',
     route: '/playlist/video/recent',
-    module: require('NeteaseCloudMusicApi/module/playlist_video_recent'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_video_recent.js').then(m => m.default),
   },
   {
     identifier: 'playlist_update',
     route: '/playlist/update',
-    module: require('NeteaseCloudMusicApi/module/playlist_update'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_update.js').then(m => m.default),
   },
   {
     identifier: 'playlist_tracks',
     route: '/playlist/tracks',
-    module: require('NeteaseCloudMusicApi/module/playlist_tracks'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_tracks.js').then(m => m.default),
   },
   {
     identifier: 'playlist_track_delete',
     route: '/playlist/track/delete',
-    module: require('NeteaseCloudMusicApi/module/playlist_track_delete'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_track_delete.js').then(m => m.default),
   },
   {
     identifier: 'playlist_track_all',
     route: '/playlist/track/all',
-    module: require('NeteaseCloudMusicApi/module/playlist_track_all'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_track_all.js').then(m => m.default),
   },
   {
     identifier: 'playlist_track_add',
     route: '/playlist/track/add',
-    module: require('NeteaseCloudMusicApi/module/playlist_track_add'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_track_add.js').then(m => m.default),
   },
   {
     identifier: 'playlist_tags_update',
     route: '/playlist/tags/update',
-    module: require('NeteaseCloudMusicApi/module/playlist_tags_update'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_tags_update.js').then(m => m.default),
   },
   {
     identifier: 'playlist_subscribers',
     route: '/playlist/subscribers',
-    module: require('NeteaseCloudMusicApi/module/playlist_subscribers'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_subscribers.js').then(m => m.default),
   },
   {
     identifier: 'playlist_subscribe',
     route: '/playlist/subscribe',
-    module: require('NeteaseCloudMusicApi/module/playlist_subscribe'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_subscribe.js').then(m => m.default),
   },
   {
     identifier: 'playlist_privacy',
     route: '/playlist/privacy',
-    module: require('NeteaseCloudMusicApi/module/playlist_privacy'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_privacy.js').then(m => m.default),
   },
   {
     identifier: 'playlist_order_update',
     route: '/playlist/order/update',
-    module: require('NeteaseCloudMusicApi/module/playlist_order_update'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_order_update.js').then(m => m.default),
   },
   {
     identifier: 'playlist_name_update',
     route: '/playlist/name/update',
-    module: require('NeteaseCloudMusicApi/module/playlist_name_update'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_name_update.js').then(m => m.default),
   },
   {
     identifier: 'playlist_mylike',
     route: '/playlist/mylike',
-    module: require('NeteaseCloudMusicApi/module/playlist_mylike'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_mylike.js').then(m => m.default),
   },
   {
     identifier: 'playlist_hot',
     route: '/playlist/hot',
-    module: require('NeteaseCloudMusicApi/module/playlist_hot'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_hot.js').then(m => m.default),
   },
   {
     identifier: 'playlist_highquality_tags',
     route: '/playlist/highquality/tags',
-    module: require('NeteaseCloudMusicApi/module/playlist_highquality_tags'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_highquality_tags.js').then(m => m.default),
   },
   {
     identifier: 'playlist_detail_dynamic',
     route: '/playlist/detail/dynamic',
-    module: require('NeteaseCloudMusicApi/module/playlist_detail_dynamic'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_detail_dynamic.js').then(m => m.default),
   },
   {
     identifier: 'playlist_detail',
     route: '/playlist/detail',
-    module: require('NeteaseCloudMusicApi/module/playlist_detail'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_detail.js').then(m => m.default),
   },
   {
     identifier: 'playlist_desc_update',
     route: '/playlist/desc/update',
-    module: require('NeteaseCloudMusicApi/module/playlist_desc_update'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_desc_update.js').then(m => m.default),
   },
   {
     identifier: 'playlist_delete',
     route: '/playlist/delete',
-    module: require('NeteaseCloudMusicApi/module/playlist_delete'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_delete.js').then(m => m.default),
   },
   {
     identifier: 'playlist_create',
     route: '/playlist/create',
-    module: require('NeteaseCloudMusicApi/module/playlist_create'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_create.js').then(m => m.default),
   },
   {
     identifier: 'playlist_cover_update',
     route: '/playlist/cover/update',
-    module: require('NeteaseCloudMusicApi/module/playlist_cover_update'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_cover_update.js').then(m => m.default),
   },
   {
     identifier: 'playlist_catlist',
     route: '/playlist/catlist',
-    module: require('NeteaseCloudMusicApi/module/playlist_catlist'),
+    module: () => import('NeteaseCloudMusicApi/module/playlist_catlist.js').then(m => m.default),
   },
   {
     identifier: 'personalized',
     route: '/personalized',
-    module: require('NeteaseCloudMusicApi/module/personalized'),
+    module: () => import('NeteaseCloudMusicApi/module/personalized.js').then(m => m.default),
   },
   {
     identifier: 'personal_fm',
     route: '/personal_fm',
-    module: require('NeteaseCloudMusicApi/module/personal_fm'),
+    module: () => import('NeteaseCloudMusicApi/module/personal_fm.js').then(m => m.default),
   },
   {
     identifier: 'mv_url',
     route: '/mv/url',
-    module: require('NeteaseCloudMusicApi/module/mv_url'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_url.js').then(m => m.default),
   },
   {
     identifier: 'mv_sublist',
     route: '/mv/sublist',
-    module: require('NeteaseCloudMusicApi/module/mv_sublist'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_sublist.js').then(m => m.default),
   },
   {
     identifier: 'mv_sub',
     route: '/mv/sub',
-    module: require('NeteaseCloudMusicApi/module/mv_sub'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_sub.js').then(m => m.default),
   },
   {
     identifier: 'mv_first',
     route: '/mv/first',
-    module: require('NeteaseCloudMusicApi/module/mv_first'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_first.js').then(m => m.default),
   },
   {
     identifier: 'mv_exclusive_rcmd',
     route: '/mv/exclusive/rcmd',
-    module: require('NeteaseCloudMusicApi/module/mv_exclusive_rcmd'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_exclusive_rcmd.js').then(m => m.default),
   },
   {
     identifier: 'mv_detail_info',
     route: '/mv/detail/info',
-    module: require('NeteaseCloudMusicApi/module/mv_detail_info'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_detail_info.js').then(m => m.default),
   },
   {
     identifier: 'mv_detail',
     route: '/mv/detail',
-    module: require('NeteaseCloudMusicApi/module/mv_detail'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_detail.js').then(m => m.default),
   },
   {
     identifier: 'mv_all',
     route: '/mv/all',
-    module: require('NeteaseCloudMusicApi/module/mv_all'),
+    module: () => import('NeteaseCloudMusicApi/module/mv_all.js').then(m => m.default),
   },
   {
     identifier: 'lyric',
     route: '/lyric',
-    module: require('NeteaseCloudMusicApi/module/lyric'),
+    module: () => import('NeteaseCloudMusicApi/module/lyric.js').then(m => m.default),
   },
   {
     identifier: 'logout',
     route: '/logout',
-    module: require('NeteaseCloudMusicApi/module/logout'),
+    module: () => import('NeteaseCloudMusicApi/module/logout.js').then(m => m.default),
   },
   {
     identifier: 'login_status',
     route: '/login/status',
-    module: require('NeteaseCloudMusicApi/module/login_status'),
+    module: () => import('NeteaseCloudMusicApi/module/login_status.js').then(m => m.default),
   },
   {
     identifier: 'login_refresh',
     route: '/login/refresh',
-    module: require('NeteaseCloudMusicApi/module/login_refresh'),
+    module: () => import('NeteaseCloudMusicApi/module/login_refresh.js').then(m => m.default),
   },
   {
     identifier: 'login_qr_key',
     route: '/login/qr/key',
-    module: require('NeteaseCloudMusicApi/module/login_qr_key'),
+    module: () => import('NeteaseCloudMusicApi/module/login_qr_key.js').then(m => m.default),
   },
   {
     identifier: 'login_qr_create',
     route: '/login/qr/create',
-    module: require('NeteaseCloudMusicApi/module/login_qr_create'),
+    module: () => import('NeteaseCloudMusicApi/module/login_qr_create.js').then(m => m.default),
   },
   {
     identifier: 'login_qr_check',
     route: '/login/qr/check',
-    module: require('NeteaseCloudMusicApi/module/login_qr_check'),
+    module: () => import('NeteaseCloudMusicApi/module/login_qr_check.js').then(m => m.default),
   },
   {
     identifier: 'login_cellphone',
     route: '/login/cellphone',
-    module: require('NeteaseCloudMusicApi/module/login_cellphone'),
+    module: () => import('NeteaseCloudMusicApi/module/login_cellphone.js').then(m => m.default),
   },
   {
     identifier: 'login',
     route: '/login',
-    module: require('NeteaseCloudMusicApi/module/login'),
+    module: () => import('NeteaseCloudMusicApi/module/login.js').then(m => m.default),
   },
   {
     identifier: 'likelist',
     route: '/likelist',
-    module: require('NeteaseCloudMusicApi/module/likelist'),
+    module: () => import('NeteaseCloudMusicApi/module/likelist.js').then(m => m.default),
   },
   {
     identifier: 'like',
     route: '/like',
-    module: require('NeteaseCloudMusicApi/module/like'),
+    module: () => import('NeteaseCloudMusicApi/module/like.js').then(m => m.default),
   },
   {
     identifier: 'follow',
     route: '/follow',
-    module: require('NeteaseCloudMusicApi/module/follow'),
+    module: () => import('NeteaseCloudMusicApi/module/follow.js').then(m => m.default),
   },
   {
     identifier: 'fm_trash',
     route: '/fm_trash',
-    module: require('NeteaseCloudMusicApi/module/fm_trash'),
+    module: () => import('NeteaseCloudMusicApi/module/fm_trash.js').then(m => m.default),
   },
   {
     identifier: 'daily_signin',
     route: '/daily_signin',
-    module: require('NeteaseCloudMusicApi/module/daily_signin'),
+    module: () => import('NeteaseCloudMusicApi/module/daily_signin.js').then(m => m.default),
   },
   {
     identifier: 'cloudsearch',
     route: '/cloudsearch',
-    module: require('NeteaseCloudMusicApi/module/cloudsearch'),
+    module: () => import('NeteaseCloudMusicApi/module/cloudsearch.js').then(m => m.default),
   },
   {
     identifier: 'cloud',
     route: '/cloud',
-    module: require('NeteaseCloudMusicApi/module/cloud'),
+    module: () => import('NeteaseCloudMusicApi/module/cloud.js').then(m => m.default),
   },
   {
     identifier: 'check_music',
     route: '/check/music',
-    module: require('NeteaseCloudMusicApi/module/check_music'),
+    module: () => import('NeteaseCloudMusicApi/module/check_music.js').then(m => m.default),
   },
   {
     identifier: 'cellphone_existence_check',
     route: '/cellphone/existence/check',
-    module: require('NeteaseCloudMusicApi/module/cellphone_existence_check'),
+    module: () => import('NeteaseCloudMusicApi/module/cellphone_existence_check.js').then(m => m.default),
   },
   {
     identifier: 'captcha_verify',
     route: '/captcha/verify',
-    module: require('NeteaseCloudMusicApi/module/captcha_verify'),
+    module: () => import('NeteaseCloudMusicApi/module/captcha_verify.js').then(m => m.default),
   },
   {
     identifier: 'captcha_sent',
     route: '/captcha/sent',
-    module: require('NeteaseCloudMusicApi/module/captcha_sent'),
+    module: () => import('NeteaseCloudMusicApi/module/captcha_sent.js').then(m => m.default),
   },
   {
     identifier: 'calendar',
     route: '/calendar',
-    module: require('NeteaseCloudMusicApi/module/calendar'),
+    module: () => import('NeteaseCloudMusicApi/module/calendar.js').then(m => m.default),
   },
   {
     identifier: 'batch',
     route: '/batch',
-    module: require('NeteaseCloudMusicApi/module/batch'),
+    module: () => import('NeteaseCloudMusicApi/module/batch.js').then(m => m.default),
   },
   {
     identifier: 'banner',
     route: '/banner',
-    module: require('NeteaseCloudMusicApi/module/banner'),
+    module: () => import('NeteaseCloudMusicApi/module/banner.js').then(m => m.default),
   },
   {
     identifier: 'avatar_upload',
     route: '/avatar/upload',
-    module: require('NeteaseCloudMusicApi/module/avatar_upload'),
+    module: () => import('NeteaseCloudMusicApi/module/avatar_upload.js').then(m => m.default),
   },
   {
     identifier: 'audio_match',
     route: '/audio/match',
-    module: require('NeteaseCloudMusicApi/module/audio_match'),
+    module: () => import('NeteaseCloudMusicApi/module/audio_match.js').then(m => m.default),
   },
   {
     identifier: 'artists',
     route: '/artists',
-    module: require('NeteaseCloudMusicApi/module/artists'),
+    module: () => import('NeteaseCloudMusicApi/module/artists.js').then(m => m.default),
   },
   {
     identifier: 'artist_video',
     route: '/artist/video',
-    module: require('NeteaseCloudMusicApi/module/artist_video'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_video.js').then(m => m.default),
   },
   {
     identifier: 'artist_top_song',
     route: '/artist/top/song',
-    module: require('NeteaseCloudMusicApi/module/artist_top_song'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_top_song.js').then(m => m.default),
   },
   {
     identifier: 'artist_sublist',
     route: '/artist/sublist',
-    module: require('NeteaseCloudMusicApi/module/artist_sublist'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_sublist.js').then(m => m.default),
   },
   {
     identifier: 'artist_sub',
     route: '/artist/sub',
-    module: require('NeteaseCloudMusicApi/module/artist_sub'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_sub.js').then(m => m.default),
   },
   {
     identifier: 'artist_songs',
     route: '/artist/songs',
-    module: require('NeteaseCloudMusicApi/module/artist_songs'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_songs.js').then(m => m.default),
   },
   {
     identifier: 'artist_new_song',
     route: '/artist/new/song',
-    module: require('NeteaseCloudMusicApi/module/artist_new_song'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_new_song.js').then(m => m.default),
   },
   {
     identifier: 'artist_new_mv',
     route: '/artist/new/mv',
-    module: require('NeteaseCloudMusicApi/module/artist_new_mv'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_new_mv.js').then(m => m.default),
   },
   {
     identifier: 'artist_mv',
     route: '/artist/mv',
-    module: require('NeteaseCloudMusicApi/module/artist_mv'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_mv.js').then(m => m.default),
   },
   {
     identifier: 'artist_list',
     route: '/artist/list',
-    module: require('NeteaseCloudMusicApi/module/artist_list'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_list.js').then(m => m.default),
   },
   {
     identifier: 'artist_fans',
     route: '/artist/fans',
-    module: require('NeteaseCloudMusicApi/module/artist_fans'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_fans.js').then(m => m.default),
   },
   {
     identifier: 'artist_detail',
     route: '/artist/detail',
-    module: require('NeteaseCloudMusicApi/module/artist_detail'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_detail.js').then(m => m.default),
   },
   {
     identifier: 'artist_desc',
     route: '/artist/desc',
-    module: require('NeteaseCloudMusicApi/module/artist_desc'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_desc.js').then(m => m.default),
   },
   {
     identifier: 'artist_album',
     route: '/artist/album',
-    module: require('NeteaseCloudMusicApi/module/artist_album'),
+    module: () => import('NeteaseCloudMusicApi/module/artist_album.js').then(m => m.default),
   },
   {
     identifier: 'album_sublist',
     route: '/album/sublist',
-    module: require('NeteaseCloudMusicApi/module/album_sublist'),
+    module: () => import('NeteaseCloudMusicApi/module/album_sublist.js').then(m => m.default),
   },
   {
     identifier: 'album_sub',
     route: '/album/sub',
-    module: require('NeteaseCloudMusicApi/module/album_sub'),
+    module: () => import('NeteaseCloudMusicApi/module/album_sub.js').then(m => m.default),
   },
   {
     identifier: 'album_songsaleboard',
     route: '/album/songsaleboard',
-    module: require('NeteaseCloudMusicApi/module/album_songsaleboard'),
+    module: () => import('NeteaseCloudMusicApi/module/album_songsaleboard.js').then(m => m.default),
   },
   {
     identifier: 'album_newest',
     route: '/album/newest',
-    module: require('NeteaseCloudMusicApi/module/album_newest'),
+    module: () => import('NeteaseCloudMusicApi/module/album_newest.js').then(m => m.default),
   },
   {
     identifier: 'album_new',
     route: '/album/new',
-    module: require('NeteaseCloudMusicApi/module/album_new'),
+    module: () => import('NeteaseCloudMusicApi/module/album_new.js').then(m => m.default),
   },
   {
     identifier: 'album_list_style',
     route: '/album/list/style',
-    module: require('NeteaseCloudMusicApi/module/album_list_style'),
+    module: () => import('NeteaseCloudMusicApi/module/album_list_style.js').then(m => m.default),
   },
   {
     identifier: 'album_list',
     route: '/album/list',
-    module: require('NeteaseCloudMusicApi/module/album_list'),
+    module: () => import('NeteaseCloudMusicApi/module/album_list.js').then(m => m.default),
   },
   {
     identifier: 'album_detail_dynamic',
     route: '/album/detail/dynamic',
-    module: require('NeteaseCloudMusicApi/module/album_detail_dynamic'),
+    module: () => import('NeteaseCloudMusicApi/module/album_detail_dynamic.js').then(m => m.default),
   },
   {
     identifier: 'album_detail',
     route: '/album/detail',
-    module: require('NeteaseCloudMusicApi/module/album_detail'),
+    module: () => import('NeteaseCloudMusicApi/module/album_detail.js').then(m => m.default),
   },
   {
     identifier: 'album',
     route: '/album',
-    module: require('NeteaseCloudMusicApi/module/album'),
+    module: () => import('NeteaseCloudMusicApi/module/album.js').then(m => m.default),
   },
   {
     identifier: 'activate_init_profile',
     route: '/activate/init/profile',
-    module: require('NeteaseCloudMusicApi/module/activate_init_profile'),
+    module: () => import('NeteaseCloudMusicApi/module/activate_init_profile.js').then(m => m.default),
   },
 ];

@@ -1,12 +1,12 @@
 import { app, dialog, globalShortcut, ipcMain } from 'electron';
 import UNM from '@unblockneteasemusic/rust-napi';
-import { registerGlobalShortcut } from '@/electron/globalShortcut';
-import cloneDeep from 'lodash/cloneDeep';
-import shortcuts from '@/utils/shortcuts';
-import { createMenu } from './menu';
-import { isCreateTray, isMac } from '@/utils/platform';
+import { registerGlobalShortcut } from './globalShortcut.js';
+import cloneDeep from 'lodash/cloneDeep.js';
+import shortcuts from '../utils/shortcuts.js';
+import { createMenu } from './menu.js';
+import { isCreateTray, isMac } from '../utils/platform.js';
 
-const clc = require('cli-color');
+import clc from 'cli-color';
 const log = text => {
   console.log(`${clc.blueBright('[ipcMain.js]')} ${text}`);
 };
@@ -71,7 +71,7 @@ const exitAskWithoutMac = (e, win) => {
     });
 };
 
-const client = require('discord-rich-presence')('818936529484906596');
+
 
 /**
  * Make data a Buffer.
@@ -235,30 +235,7 @@ export function initIpcMain(win, store, trayEventEmitter) {
     }
   });
 
-  ipcMain.on('playDiscordPresence', (event, track) => {
-    client.updatePresence({
-      details: track.name + ' - ' + track.ar.map(ar => ar.name).join(','),
-      state: track.al.name,
-      endTimestamp: Date.now() + track.dt,
-      largeImageKey: track.al.picUrl,
-      largeImageText: 'Listening ' + track.name,
-      smallImageKey: 'play',
-      smallImageText: 'Playing',
-      instance: true,
-    });
-  });
-
-  ipcMain.on('pauseDiscordPresence', (event, track) => {
-    client.updatePresence({
-      details: track.name + ' - ' + track.ar.map(ar => ar.name).join(','),
-      state: track.al.name,
-      largeImageKey: track.al.picUrl,
-      largeImageText: 'YesPlayMusic',
-      smallImageKey: 'pause',
-      smallImageText: 'Pause',
-      instance: true,
-    });
-  });
+  
 
   ipcMain.on('setProxy', (event, config) => {
     const proxyRules = `${config.protocol}://${config.server}:${config.port}`;
