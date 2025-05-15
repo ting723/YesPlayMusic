@@ -71,8 +71,6 @@ const exitAskWithoutMac = (e, win) => {
     });
 };
 
-
-
 /**
  * Make data a Buffer.
  *
@@ -234,8 +232,6 @@ export function initIpcMain(win, store, trayEventEmitter) {
       globalShortcut.unregisterAll();
     }
   });
-
-  
 
   ipcMain.on('setProxy', (event, config) => {
     const proxyRules = `${config.protocol}://${config.server}:${config.port}`;

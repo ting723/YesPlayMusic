@@ -30,37 +30,45 @@ import 'module-alias/register.js';
 
 let autoUpdater;
 let installExtension, VUEJS_DEVTOOLS;
-let startNeteaseMusicApi, initIpcMain, createMenu, createTray, createTouchBar, createDockMenu, registerGlobalShortcut, createMpris, createDbus;
+let startNeteaseMusicApi,
+  initIpcMain,
+  createMenu,
+  createTray,
+  createTouchBar,
+  createDockMenu,
+  registerGlobalShortcut,
+  createMpris,
+  createDbus;
 
 async function loadDependencies() {
   const pkg = await import('electron-updater');
   autoUpdater = pkg.autoUpdater;
-  
+
   const devtoolsInstaller = await import('electron-devtools-installer');
   installExtension = devtoolsInstaller.default;
   VUEJS_DEVTOOLS = devtoolsInstaller.VUEJS_DEVTOOLS;
-  
+
   const services = await import('./electron/services.js');
   startNeteaseMusicApi = services.startNeteaseMusicApi;
-  
+
   const ipcMain = await import('./electron/ipcMain.js');
   initIpcMain = ipcMain.initIpcMain;
-  
+
   const menu = await import('./electron/menu.js');
   createMenu = menu.createMenu;
-  
+
   const tray = await import('./electron/tray.js');
   createTray = tray.createTray;
-  
+
   const touchBar = await import('./electron/touchBar.js');
   createTouchBar = touchBar.createTouchBar;
-  
+
   const dockMenu = await import('./electron/dockMenu.js');
   createDockMenu = dockMenu.createDockMenu;
-  
+
   const globalShortcut = await import('./electron/globalShortcut.js');
   registerGlobalShortcut = globalShortcut.registerGlobalShortcut;
-  
+
   const mpris = await import('./electron/mpris.js');
   createMpris = mpris.createMpris;
   createDbus = mpris.createDbus;
@@ -205,7 +213,10 @@ class Background {
     log('creating express app');
 
     const expressApp = express();
-    expressApp.use('/', express.static(/* @vite-ignore */ new URL('.', import.meta.url).pathname));
+    expressApp.use(
+      '/',
+      express.static(/* @vite-ignore */ new URL('.', import.meta.url).pathname)
+    );
     expressApp.use('/api', expressProxy('http://127.0.0.1:3000'));
     expressApp.use('/player', (req, res) => {
       this.window.webContents
@@ -244,7 +255,7 @@ class Background {
         webSecurity: false,
         nodeIntegration: true,
         enableRemoteModule: true,
-        contextIsolation: false
+        contextIsolation: false,
       },
       backgroundColor:
         ((appearance === undefined || appearance === 'auto') &&
@@ -310,7 +321,11 @@ class Background {
       // In production, load from the local express server
       protocol.registerFileProtocol('app', (request, callback) => {
         const url = request.url.substr(6);
-        callback({ path: path.normalize(`${new URL('.', import.meta.url).pathname}/${url}`) });
+        callback({
+          path: path.normalize(
+            `${new URL('.', import.meta.url).pathname}/${url}`
+          ),
+        });
       });
       this.window.loadURL(
         showLibraryDefault
