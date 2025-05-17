@@ -25,10 +25,7 @@ const UNPLAYABLE_CONDITION = {
   PLAY_PREV_TRACK: 'playPrevTrack',
 };
 
-const electron =
-  process.env.IS_ELECTRON === true ? window.require('electron') : null;
-const ipcRenderer =
-  process.env.IS_ELECTRON === true ? electron.ipcRenderer : null;
+const ipcRenderer = typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV ? window.electron?.ipcRenderer : null;
 const delay = ms =>
   new Promise(resolve => {
     setTimeout(() => {
@@ -45,15 +42,15 @@ function setTitle(track) {
   document.title = track
     ? `${track.name} · ${track.ar[0].name} - YesPlayMusic`
     : 'YesPlayMusic';
-  if (isCreateTray) {
-    ipcRenderer?.send('updateTrayTooltip', document.title);
+  if (typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV && isCreateTray && ipcRenderer) {
+    ipcRenderer.send('updateTrayTooltip', document.title);
   }
   store.commit('updateTitle', document.title);
 }
 
 function setTrayLikeState(isLiked) {
-  if (isCreateTray) {
-    ipcRenderer?.send('updateTrayLikeState', isLiked);
+  if (typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV && isCreateTray && ipcRenderer) {
+    ipcRenderer.send('updateTrayLikeState', isLiked);
   }
 }
 
@@ -230,11 +227,27 @@ export default class {
       this._personalFMNextTrack.id === 0 ||
       this._personalFMTrack.id === this._personalFMNextTrack.id
     ) {
-      personalFM().then(result => {
-        this._personalFMTrack = result.data[0];
-        this._personalFMNextTrack = result.data[1];
-        return this._personalFMTrack;
-      });
+      personalFM()
+        .then(result => {
+          if (result && result.data && Array.isArray(result.data) && result.data.length > 0) {
+            this._personalFMTrack = result.data[0];
+            if (result.data.length >= 2) {
+              this._personalFMNextTrack = result.data[1];
+            } else {
+              this._personalFMNextTrack = {}; // Handle case where only one track is returned
+            }
+            return this._personalFMTrack;
+          } else {
+            console.error('personalFM API returned unexpected data structure:', result);
+            this._personalFMTrack = {}; // Set to a default empty object or handle appropriately
+            this._personalFMNextTrack = {}; // Set to a default empty object or handle appropriately
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching personal FM:', error);
+          this._personalFMTrack = {}; // Set to a default empty object or handle appropriately
+          this._personalFMNextTrack = {}; // Set to a default empty object or handle appropriately
+        });
     }
   }
   _setPlaying(isPlaying) {

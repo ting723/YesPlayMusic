@@ -145,7 +145,7 @@ export default {
   },
   computed: {
     isElectron() {
-      return process.env.IS_ELECTRON;
+      return process.env.IS_ELECTRON_DEV;
     },
   },
   created() {

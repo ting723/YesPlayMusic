@@ -31,7 +31,7 @@ import Scrollbar from './components/Scrollbar.vue';
 import Navbar from './components/Navbar.vue';
 import Player from './components/Player.vue';
 import Toast from './components/Toast.vue';
-import { ipcRenderer } from './electron/ipcRenderer';
+
 import { isAccountLoggedIn, isLooseLoggedIn } from '@/utils/auth';
 import Lyrics from './views/lyrics.vue';
 import { mapState } from 'vuex';
@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      isElectron: process.env.IS_ELECTRON, // true || undefined
+      isElectron: import.meta.env.IS_ELECTRON, // true || undefined
       userSelectNone: false,
     };
   },
@@ -77,7 +77,11 @@ export default {
     },
   },
   created() {
-    if (this.isElectron) ipcRenderer(this);
+    if (import.meta.env.IS_ELECTRON_DEV) {
+      import('./electron/ipcRenderer').then(({ ipcRenderer }) => {
+        ipcRenderer(this);
+      });
+    }
     window.addEventListener('keydown', this.handleKeydown);
     this.fetchData();
   },

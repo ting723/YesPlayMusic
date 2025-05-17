@@ -11,10 +11,8 @@ function resolve(dir) {
 }
 
 export default defineConfig({
-
-  base: './',
   optimizeDeps: {
-    include: ['NeteaseCloudMusicApi']
+    include: ['NeteaseCloudMusicApi'],
   },
   plugins: [
     vue(),
@@ -32,34 +30,46 @@ export default defineConfig({
           },
         ],
       },
+      filename: 'service-worker.js',
     }),
     // 在electron插件配置中添加vite.resolve配置
-    electron([
-      {
-        entry: 'src/background.js',
-        vite: {
-          resolve: {
-            alias: {
-              '@': path.resolve(__dirname, 'src'),
+    process.env.IS_ELECTRON_DEV &&
+      electron([
+        {
+          entry: 'src/background.js',
+          preload: 'src/electron/preload.js',
+          vite: {
+            resolve: {
+              alias: {
+                '@': path.resolve(__dirname, 'src'),
+              },
+              extensions: ['.js', '.json', '.node'],
             },
-            extensions: ['.js', '.json', '.node'],
-          },
-          build: {
-            outDir: 'dist_electron',
-            rollupOptions: {
-              external: [
-                '@unblockneteasemusic/rust-napi',
-                'electron/tray',
-                'electron/mpris',
-                'electron/globalShortcut',
-              ],
+            build: {
+              outDir: 'dist_electron',
+              rollupOptions: {
+                external: [
+                  '@unblockneteasemusic/rust-napi',
+                  'electron/tray',
+                  'electron/mpris',
+                  'electron/globalShortcut',
+                ],
+              },
             },
           },
         },
-      },
-    ]),
-    electronRenderer(),
-  ],
+      ]),
+    process.env.IS_ELECTRON_DEV &&
+      electronRenderer({
+        preload: 'src/electron/preload.js',
+        optimizeDeps: {
+          exclude: ['os', 'path'],
+        },
+        rollupOptions: {
+          external: ['electron'],
+        },
+      }),
+  ].filter(Boolean),
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
@@ -70,14 +80,14 @@ export default defineConfig({
     },
   },
   server: {
-    port: 8081,
-    strictPort: true,
     host: '127.0.0.1',
+    port: process.env.DEV_SERVER_PORT || 8080,
+    strictPort: true,
     proxy: {
       '^/api': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, ''),
+        rewrite: path => path.replace(/^\/api/, '/'),
       },
     },
   },

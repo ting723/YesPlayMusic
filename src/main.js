@@ -4,7 +4,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import i18n from '@/locale';
-import '@/assets/icons';
+import initIcons from '@/assets/icons';
 import '@/utils/filters';
 import './registerServiceWorker';
 import { dailyTask } from '@/utils/common';
@@ -29,7 +29,6 @@ console.log(
 );
 
 NProgress.configure({ showSpinner: false, trickleSpeed: 100 });
-dailyTask();
 
 const app = createApp(App);
 
@@ -40,5 +39,15 @@ app.use(VueGtag, {
 app.use(store);
 app.use(router);
 app.use(i18n);
+
+initIcons(app);
+
+window
+  .matchMedia('(prefers-color-scheme: dark)')
+  .addEventListener('change', () => {
+    if (store.state.settings.appearance === 'auto') {
+      changeAppearance(store.state.settings.appearance);
+    }
+  });
 
 app.mount('#app');

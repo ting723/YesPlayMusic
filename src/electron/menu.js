@@ -1,5 +1,5 @@
 import defaultShortcuts from '../utils/shortcuts.js';
-import { app, Menu } from 'electron';
+import { app, Menu, shell } from 'electron';
 import { isMac } from '../utils/platform.js';
 
 export function createMenu(win, store) {
@@ -169,14 +169,12 @@ export function createMenu(win, store) {
         {
           label: 'GitHub',
           click: async () => {
-            const { shell } = require('electron');
             await shell.openExternal('https://github.com/qier222/YesPlayMusic');
           },
         },
         {
           label: 'Electron',
           click: async () => {
-            const { shell } = require('electron');
             await shell.openExternal('https://electronjs.org');
           },
         },

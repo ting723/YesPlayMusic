@@ -1440,6 +1440,11 @@
   resolved "https://registry.npmmirror.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
+"@rollup/plugin-alias@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.npmmirror.com/@rollup/plugin-alias/-/plugin-alias-5.1.1.tgz"
+  integrity sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.npmmirror.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz"
@@ -7256,6 +7261,11 @@ mkdirp@^1.0.4:
   resolved "https://registry.npmmirror.com/mkdirp/-/mkdirp-1.0.4.tgz"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
+module-alias@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.npmmirror.com/module-alias/-/module-alias-2.2.3.tgz"
+  integrity sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==
+
 mpris-service@^2.1.2:
   version "2.1.2"
   resolved "https://registry.npmmirror.com/mpris-service/-/mpris-service-2.1.2.tgz"
@@ -10303,11 +10313,6 @@ vite@^5.0.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vue-class-component@^7.1.0:
-  version "7.2.6"
-  resolved "https://registry.npmmirror.com/vue-class-component/-/vue-class-component-7.2.6.tgz"
-  integrity sha512-+eaQXVrAm/LldalI272PpDe3+i4mPis0ORiMYxF6Ae4hyuCh15W8Idet7wPUEs4N4YptgFHGys4UrgNQOMyO6w==
-
 vue-clipboard2@0.3.3:
   version "0.3.3"
   resolved "https://registry.npmmirror.com/vue-clipboard2/-/vue-clipboard2-0.3.3.tgz"
@@ -10342,13 +10347,6 @@ vue-i18n@^9.0.0:
     "@intlify/shared" "9.14.4"
     "@vue/devtools-api" "^6.5.0"
 
-vue-property-decorator@^8.0.0:
-  version "8.5.1"
-  resolved "https://registry.npmmirror.com/vue-property-decorator/-/vue-property-decorator-8.5.1.tgz"
-  integrity sha512-O6OUN2OMsYTGPvgFtXeBU3jPnX5ffQ9V4I1WfxFQ6dqz6cOUbR3Usou7kgFpfiXDvV7dJQSFcJ5yUPgOtPPm1Q==
-  dependencies:
-    vue-class-component "^7.1.0"
-
 vue-router@^4.0.0:
   version "4.5.1"
   resolved "https://registry.npmmirror.com/vue-router/-/vue-router-4.5.1.tgz"
@@ -10356,13 +10354,10 @@ vue-router@^4.0.0:
   dependencies:
     "@vue/devtools-api" "^6.6.4"
 
-vue-slider-component@^3.2.24:
-  version "3.2.24"
-  resolved "https://registry.npmmirror.com/vue-slider-component/-/vue-slider-component-3.2.24.tgz"
-  integrity sha512-28hfotAL/CPXPwqHgVFyUwUEV0zweoc2wW0bgraGkoIcRZGlFjk8caYJLE8+Luug5t3b9tJm/NyDXpyIdmcYZg==
-  dependencies:
-    core-js "^3.6.5"
-    vue-property-decorator "^8.0.0"
+vue-slider-component@^4.1.0-beta.7:
+  version "4.1.0-beta.7"
+  resolved "https://registry.npmmirror.com/vue-slider-component/-/vue-slider-component-4.1.0-beta.7.tgz"
+  integrity sha512-Qb7K920ZG7PoQswoF6Ias+i3W2rd3k4fpk04JUl82kEUcN86Yg6et7bVSKWt/7VpQe8a5IT3BqCKSCOZ7AJgCA==
 
 vue@^3.3.0:
   version "3.5.13"

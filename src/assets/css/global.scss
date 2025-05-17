@@ -7,19 +7,18 @@
 @font-face {
   font-family: 'Barlow';
   font-weight: medium;
-  src: url('~@/assets/fonts/Barlow-Medium.woff2') format('woff2'),
-    url('~@/assets/fonts/Barlow-Medium.ttf') format('truetype');
+  src: url('/fonts/Barlow-Medium.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Barlow';
   font-weight: 600;
-  src: url('~@/assets/fonts/Barlow-SemiBold.woff2') format('woff2'),
+  src: url('/fonts/Barlow-SemiBold.woff2') format('woff2'),
     url('~@/assets/fonts/Barlow-SemiBold.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Barlow';
   font-weight: bold;
-  src: url('~@/assets/fonts/Barlow-Bold.woff2') format('woff2'),
+  src: url('/fonts/Barlow-Bold.woff2') format('woff2'),
     url('~@/assets/fonts/Barlow-Bold.ttf') format('truetype');
 }
 @font-face {

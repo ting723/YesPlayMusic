@@ -28,10 +28,7 @@ import '@vscode/codicons/dist/codicon.css';
 
 import { mapState } from 'vuex';
 
-const electron =
-  process.env.IS_ELECTRON === true ? window.require('electron') : null;
-const ipcRenderer =
-  process.env.IS_ELECTRON === true ? electron.ipcRenderer : null;
+const { ipcRenderer } = window.electron || {};
 
 export default {
   name: 'Win32Titlebar',

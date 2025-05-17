@@ -2,8 +2,12 @@
 
 import { register } from 'register-service-worker';
 
-if (!process.env.IS_ELECTRON) {
-  register(`${process.env.BASE_URL}service-worker.js`, {
+if (import.meta.env.DEV) {
+  import('virtual:pwa-register').then(({ registerSW }) => {
+    registerSW();
+  });
+} else if (!import.meta.env.IS_ELECTRON_DEV) {
+  register(`${import.meta.env.BASE_URL}service-worker.js`, {
     ready() {
       // console.log(
       //   "App is being served from cache by a service worker.\n" +
@@ -20,7 +24,7 @@ if (!process.env.IS_ELECTRON) {
       // console.log("New content is downloading.");
     },
     updated() {
-      // console.log("New content is available; please refresh.");
+      // console.log("New content is available; please refresh.");");
     },
     offline() {
       // console.log(

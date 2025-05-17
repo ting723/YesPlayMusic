@@ -119,10 +119,10 @@ export default {
     },
   },
   created() {
-    if (process.platform === 'win32') {
+    if (import.meta.env.VITE_PLATFORM === 'win32') {
       this.enableWin32Titlebar = true;
     } else if (
-      process.platform === 'linux' &&
+      import.meta.env.VITE_PLATFORM === 'linux' &&
       this.settings.linuxEnableCustomTitlebar
     ) {
       this.enableLinuxTitlebar = true;
@@ -161,7 +161,7 @@ export default {
       window.open('https://github.com/qier222/YesPlayMusic');
     },
     toLogin() {
-      if (process.env.IS_ELECTRON === true) {
+      if (import.meta.env.VITE_IS_ELECTRON_DEV) {
         this.$router.push({ name: 'loginAccount' });
       } else {
         this.$router.push({ name: 'login' });

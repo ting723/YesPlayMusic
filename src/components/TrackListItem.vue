@@ -192,7 +192,7 @@ export default {
       );
     },
     showUnavailableSongInGreyStyle() {
-      return process.env.IS_ELECTRON
+      return process.env.IS_ELECTRON_DEV
         ? !this.$store.state.settings.enableUnblockNeteaseMusic
         : true;
     },

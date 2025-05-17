@@ -18,7 +18,7 @@ import { mapTrackPlayableStatus } from '@/utils/common';
  */
 export function search(params) {
   return request({
-    url: '/search',
+    url: '/api/search',
     method: 'get',
     params,
   }).then(data => {
@@ -30,7 +30,7 @@ export function search(params) {
 
 export function personalFM() {
   return request({
-    url: '/personal_fm',
+    url: '/api/personal_fm',
     method: 'get',
     params: {
       timestamp: new Date().getTime(),
@@ -40,7 +40,7 @@ export function personalFM() {
 
 export function fmTrash(id) {
   return request({
-    url: '/fm_trash',
+    url: '/api/fm_trash',
     method: 'post',
     params: {
       timestamp: new Date().getTime(),

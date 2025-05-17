@@ -51,7 +51,7 @@ async function deleteExcessCache() {
 }
 
 export function cacheTrackSource(trackInfo, url, bitRate, from = 'netease') {
-  if (!process.env.IS_ELECTRON) return;
+  if (!process.env.IS_ELECTRON_DEV) return;
   const name = trackInfo.name;
   const artist =
     (trackInfo.ar && trackInfo.ar[0]?.name) ||

@@ -1,7 +1,12 @@
-import Vue from 'vue';
-import SvgIcon from '@/components/SvgIcon';
+import SvgIcon from '../../components/SvgIcon.vue';
 
-Vue.component('svg-icon', SvgIcon);
-const requireAll = requireContext => requireContext.keys().map(requireContext);
-const req = require.context('./', true, /\.svg$/);
-requireAll(req);
+export default (app) => {
+  app.component('svg-icon', SvgIcon);
+  const icons = import.meta.glob('./*.svg', { eager: true });
+
+  for (const iconPath in icons) {
+    const iconName = iconPath.replace(/^\.\/(.*)\.svg$/, '$1');
+    const iconComponent = icons[iconPath].default;
+    app.component(`icon-${iconName}`, iconComponent);
+  }
+};

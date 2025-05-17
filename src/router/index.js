@@ -134,10 +134,15 @@ const routes = [
     name: 'lastfmCallback',
     component: () => import('@/views/lastfmCallback.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    redirect: '/',
+  },
 ];
 
 const router = createRouter({
-  history: process.env.IS_ELECTRON
+  history: typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV
     ? createWebHashHistory()
     : createWebHistory(),
   routes,
@@ -161,7 +166,7 @@ router.beforeEach((to, from, next) => {
     if (isLooseLoggedIn()) {
       next();
     } else {
-      if (process.env.IS_ELECTRON === true) {
+      if (process.env.IS_ELECTRON_DEV) {
         next({ path: '/login/account' });
       } else {
         next({ path: '/login' });

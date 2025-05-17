@@ -48,7 +48,7 @@ let localStorage = {
   },
 };
 
-if (process.env.IS_ELECTRON === true) {
+if (typeof process !== 'undefined' && process.env && process.env.IS_ELECTRON_DEV) {
   localStorage.settings.automaticallyCacheSongs = true;
 }
 

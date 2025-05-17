@@ -310,28 +310,18 @@ class Background {
     this.window.setMenuBarVisibility(false);
 
     if (isDevelopment) {
-      // Load the url of the dev server in development mode
-      this.window.loadURL(
-        showLibraryDefault
-          ? 'http://127.0.0.1:8081/#/library'
-          : 'http://127.0.0.1:8081'
-      );
-      if (!process.env.IS_TEST) this.window.webContents.openDevTools();
+      // Load the url of the dev server of Vite.
+      if (process.env.VITE_DEV_SERVER_URL) {
+        // Add a delay to allow the Vite server to fully start
+        this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+      } else {
+        this.window.loadFile(path.resolve(new URL('.', import.meta.url).pathname, '../dist/index.html'));
+      }
+      // Open the DevTools.
+      this.window.webContents.openDevTools();
     } else {
-      // In production, load from the local express server
-      protocol.registerFileProtocol('app', (request, callback) => {
-        const url = request.url.substr(6);
-        callback({
-          path: path.normalize(
-            `${new URL('.', import.meta.url).pathname}/${url}`
-          ),
-        });
-      });
-      this.window.loadURL(
-        showLibraryDefault
-          ? 'http://localhost:27232/#/library'
-          : 'http://localhost:27232'
-      );
+      // Load the index.html when not on dev.
+      this.window.loadFile(path.resolve(new URL('.', import.meta.url).pathname, '../dist/index.html'));
     }
   }
 

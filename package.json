@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue src",
-    "electron:dev": "vite dev",
+    "electron:dev": "IS_ELECTRON_DEV=true electron .",
     "electron:build": "vite build && electron-builder -p never",
     "electron:build-all": "vite build && electron-builder -p never -mwl",
     "electron:build-mac": "vite build && electron-builder -p never -m",
@@ -34,7 +34,6 @@
   "dependencies": {
     "@unblockneteasemusic/rust-napi": "^0.4.0",
     "@vscode/codicons": "^0.0.35",
-    "NeteaseCloudMusicApi": "^4.23.3",
     "axios": "1.9.0",
     "change-case": "^4.1.2",
     "cli-color": "^2.0.0",
@@ -68,6 +67,7 @@
     "module-alias": "^2.2.3",
     "mpris-service": "^2.1.2",
     "music-metadata": "^7.5.3",
+    "NeteaseCloudMusicApi": "^4.23.3",
     "node-vibrant": "^3.2.1-alpha.1",
     "nprogress": "^0.2.0",
     "pac-proxy-agent": "^4.1.0",
@@ -81,7 +81,7 @@
     "vue-gtag": "^2.0.0",
     "vue-i18n": "^9.0.0",
     "vue-router": "^4.0.0",
-    "vue-slider-component": "^3.2.24",
+    "vue-slider-component": "^4.1.0-beta.7",
     "vuex": "^4.0.0",
     "x11": "^2.3.0"
   },
