@@ -25,7 +25,10 @@ const UNPLAYABLE_CONDITION = {
   PLAY_PREV_TRACK: 'playPrevTrack',
 };
 
-const ipcRenderer = typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV ? window.electron?.ipcRenderer : null;
+const ipcRenderer =
+  typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV
+    ? window.electron?.ipcRenderer
+    : null;
 const delay = ms =>
   new Promise(resolve => {
     setTimeout(() => {
@@ -42,14 +45,24 @@ function setTitle(track) {
   document.title = track
     ? `${track.name} · ${track.ar[0].name} - YesPlayMusic`
     : 'YesPlayMusic';
-  if (typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV && isCreateTray && ipcRenderer) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env.IS_ELECTRON_DEV &&
+    isCreateTray &&
+    ipcRenderer
+  ) {
     ipcRenderer.send('updateTrayTooltip', document.title);
   }
   store.commit('updateTitle', document.title);
 }
 
 function setTrayLikeState(isLiked) {
-  if (typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV && isCreateTray && ipcRenderer) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env.IS_ELECTRON_DEV &&
+    isCreateTray &&
+    ipcRenderer
+  ) {
     ipcRenderer.send('updateTrayLikeState', isLiked);
   }
 }
@@ -229,7 +242,12 @@ export default class {
     ) {
       personalFM()
         .then(result => {
-          if (result && result.data && Array.isArray(result.data) && result.data.length > 0) {
+          if (
+            result &&
+            result.data &&
+            Array.isArray(result.data) &&
+            result.data.length > 0
+          ) {
             this._personalFMTrack = result.data[0];
             if (result.data.length >= 2) {
               this._personalFMNextTrack = result.data[1];
@@ -238,7 +256,10 @@ export default class {
             }
             return this._personalFMTrack;
           } else {
-            console.error('personalFM API returned unexpected data structure:', result);
+            console.error(
+              'personalFM API returned unexpected data structure:',
+              result
+            );
             this._personalFMTrack = {}; // Set to a default empty object or handle appropriately
             this._personalFMNextTrack = {}; // Set to a default empty object or handle appropriately
           }

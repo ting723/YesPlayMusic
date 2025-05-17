@@ -7,8 +7,6 @@ import zhCN from './lang/zh-CN.js';
 import zhTW from './lang/zh-TW.js';
 import tr from './lang/tr.js';
 
-
-
 const i18n = createI18n({
   locale: store.state.settings.lang,
   messages: {

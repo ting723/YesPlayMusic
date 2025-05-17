@@ -1,6 +1,6 @@
 import SvgIcon from '../../components/SvgIcon.vue';
 
-export default (app) => {
+export default app => {
   app.component('svg-icon', SvgIcon);
   const icons = import.meta.glob('./*.svg', { eager: true });
 

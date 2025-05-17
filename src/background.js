@@ -315,13 +315,23 @@ class Background {
         // Add a delay to allow the Vite server to fully start
         this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
       } else {
-        this.window.loadFile(path.resolve(new URL('.', import.meta.url).pathname, '../dist/index.html'));
+        this.window.loadFile(
+          path.resolve(
+            new URL('.', import.meta.url).pathname,
+            '../dist/index.html'
+          )
+        );
       }
       // Open the DevTools.
       this.window.webContents.openDevTools();
     } else {
       // Load the index.html when not on dev.
-      this.window.loadFile(path.resolve(new URL('.', import.meta.url).pathname, '../dist/index.html'));
+      this.window.loadFile(
+        path.resolve(
+          new URL('.', import.meta.url).pathname,
+          '../dist/index.html'
+        )
+      );
     }
   }
 

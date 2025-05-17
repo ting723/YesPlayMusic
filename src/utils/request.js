@@ -33,17 +33,19 @@ service.interceptors.request.use(function (config) {
   if (!config.params) config.params = {};
   // Remove the baseURL.length check as it's empty in dev with proxy
   // if (baseURL.length) {
-  if (
-    !process.env.IS_ELECTRON &&
-    getCookie('MUSIC_U') !== null
-  ) {
+  if (!process.env.IS_ELECTRON && getCookie('MUSIC_U') !== null) {
     config.params.cookie = `MUSIC_U=${getCookie('MUSIC_U')};`;
   }
   // } else {
   //   console.error("You must set up the baseURL in the service's config");
   // }
 
-  if (typeof process !== 'undefined' && process.env && !process.env.IS_ELECTRON && !config.url.includes('/login')) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env &&
+    !process.env.IS_ELECTRON &&
+    !config.url.includes('/login')
+  ) {
     config.params.realIP = '211.161.244.70';
   }
 
@@ -52,7 +54,11 @@ service.interceptors.request.use(function (config) {
     localStorage.getItem('settings')
   ).enableRealIP;
   const realIP = JSON.parse(localStorage.getItem('settings')).realIP;
-  if (typeof process !== 'undefined' && process.env && import.meta.env.VITE_REAL_IP) {
+  if (
+    typeof process !== 'undefined' &&
+    process.env &&
+    import.meta.env.VITE_REAL_IP
+  ) {
     config.params.realIP = process.env.VUE_APP_REAL_IP;
   } else if (enableRealIP) {
     config.params.realIP = realIP;
@@ -96,7 +102,11 @@ service.interceptors.response.use(
       doLogout();
 
       // 導向登入頁面
-      if (typeof process !== 'undefined' && process.env && process.env.IS_ELECTRON === true) {
+      if (
+        typeof process !== 'undefined' &&
+        process.env &&
+        process.env.IS_ELECTRON === true
+      ) {
         router.push({ name: 'loginAccount' });
       } else {
         router.push({ name: 'login' });

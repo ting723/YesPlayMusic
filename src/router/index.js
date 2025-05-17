@@ -142,9 +142,10 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV
-    ? createWebHashHistory()
-    : createWebHistory(),
+  history:
+    typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV
+      ? createWebHashHistory()
+      : createWebHistory(),
   routes,
 });
 

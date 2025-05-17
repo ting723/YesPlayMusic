@@ -27,12 +27,16 @@ const sign = params => {
 
 export function auth() {
   let authUrl = '';
-if (typeof process !== 'undefined' && process.env && process.env.IS_ELECTRON_DEV) {
-  authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=${baseUrl}/#/lastfm/callback`;
-} else {
-  authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=${baseUrl}/lastfm/callback`;
-}
-const url = authUrl;
+  if (
+    typeof process !== 'undefined' &&
+    process.env &&
+    process.env.IS_ELECTRON_DEV
+  ) {
+    authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=${baseUrl}/#/lastfm/callback`;
+  } else {
+    authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=${baseUrl}/lastfm/callback`;
+  }
+  const url = authUrl;
   window.open(url);
 }
 
