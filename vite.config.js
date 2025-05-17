@@ -10,10 +10,12 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['NeteaseCloudMusicApi'],
   },
+  root: process.cwd(),
+  base: mode === 'electron' ? './' : '/',
   plugins: [
     vue(),
     svgLoader(),
@@ -92,7 +94,9 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: false,
+    outDir: mode === 'electron' ? 'dist-electron' : 'dist',
+    emptyOutDir: true,
+    sourcemap: true,
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, 'index.html'),
@@ -103,4 +107,4 @@ export default defineConfig({
       ],
     },
   },
-});
+}));

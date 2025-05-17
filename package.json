@@ -27,7 +27,28 @@
     "@": "src",
     "@/utils": "src/utils"
   },
-  "main": "src/background.js",
+  "main": "src/cbackground.js",
+  "homepage": "./",
+  "build": {
+    "appId": "yesplaymusic",
+    "productName": "YesPlayMusic",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist-electron/**/*",
+      "electron/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
   "engines": {
     "node": ">=14"
   },
