@@ -352,7 +352,7 @@ export default class {
     }
   }
   _playAudioSource(source, autoplay = true) {
-    Howler.unload();
+    this._howler?.unload();
     this._howler = new Howl({
       src: [source],
       html5: true,

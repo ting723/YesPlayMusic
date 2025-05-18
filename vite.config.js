@@ -85,6 +85,7 @@ export default defineConfig(({ mode }) => ({
     host: '127.0.0.1',
     port: DEV_SERVER_PORT,
     strictPort: true,
+    historyApiFallback: true,
     proxy: {
       '^/api': {
         target: 'http://localhost:3000',
@@ -98,9 +99,6 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     sourcemap: true,
     rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'index.html'),
-      },
       external: [
         '@unblockneteasemusic/rust-napi/darwin-x64',
         '@unblockneteasemusic/rust-napi/darwin-arm64',
