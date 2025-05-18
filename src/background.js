@@ -311,9 +311,9 @@ class Background {
 
     if (isDevelopment) {
       // Load the url of the dev server of Vite.
-      if (process.env.VITE_DEV_SERVER_URL) {
-        // Add a delay to allow the Vite server to fully start
-        this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+      const devServerUrl = import.meta.env.VITE_DEV_SERVER_URL;
+if (devServerUrl) {
+        this.window.loadURL(devServerUrl);
       } else {
         this.window.loadFile(
           path.resolve(

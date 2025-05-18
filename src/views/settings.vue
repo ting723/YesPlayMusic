@@ -780,6 +780,7 @@ import { isLooseLoggedIn, doLogout } from '@/utils/auth';
 import { auth as lastfmAuth } from '@/api/lastfm';
 import { changeAppearance, bytesToSize } from '@/utils/common';
 import { countDBSize, clearDB } from '@/utils/db';
+import { isElectron } from '@/utils/env';
 import pkg from '../../package.json';
 
 const { ipcRenderer } = window.electron || {};
@@ -811,7 +812,7 @@ export default {
   computed: {
     ...mapState(['player', 'settings', 'data', 'lastfm']),
     isElectron() {
-      return process.env.IS_ELECTRON;
+      return isElectron();
     },
     isMac() {
       return /macintosh|mac os x/i.test(navigator.userAgent);
@@ -1281,11 +1282,11 @@ export default {
   },
   created() {
     this.countDBSize('tracks');
-    if (process.env.IS_ELECTRON) this.getAllOutputDevices();
+    if (isElectron()) this.getAllOutputDevices();
   },
   activated() {
     this.countDBSize('tracks');
-    if (process.env.IS_ELECTRON) this.getAllOutputDevices();
+    if (isElectron()) this.getAllOutputDevices();
   },
   methods: {
     ...mapActions(['showToast']),

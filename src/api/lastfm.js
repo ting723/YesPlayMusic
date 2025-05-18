@@ -2,13 +2,9 @@
 
 import axios from 'axios';
 import md5 from 'crypto-js/md5';
+import { getLastFMConfig, isElectronDev } from '@/utils/env';
 
-let apiKey = '';
-let apiSharedSecret = '';
-if (typeof process !== 'undefined' && process.env) {
-  apiKey = process.env.VUE_APP_LASTFM_API_KEY;
-  apiSharedSecret = process.env.VUE_APP_LASTFM_API_SHARED_SECRET;
-}
+const { apiKey, apiSharedSecret } = getLastFMConfig();
 const baseUrl = window.location.origin;
 const url = 'https://ws.audioscrobbler.com/2.0/';
 
@@ -27,11 +23,7 @@ const sign = params => {
 
 export function auth() {
   let authUrl = '';
-  if (
-    typeof process !== 'undefined' &&
-    process.env &&
-    process.env.IS_ELECTRON_DEV
-  ) {
+  if (isElectronDev()) {
     authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=${baseUrl}/#/lastfm/callback`;
   } else {
     authUrl = `https://www.last.fm/api/auth/?api_key=${apiKey}&cb=${baseUrl}/lastfm/callback`;

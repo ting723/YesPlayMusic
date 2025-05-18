@@ -106,7 +106,14 @@ export default {
   },
   activated() {
     this.loadData();
-    this.$parent.$refs.scrollbar.restorePosition();
+    let parent = this.$parent;
+    while (parent) {
+      if (parent.$refs.scrollbar) {
+        parent.$refs.scrollbar.restorePosition();
+        break;
+      }
+      parent = parent.$parent;
+    }
   },
   methods: {
     loadData() {

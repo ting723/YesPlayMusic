@@ -3,7 +3,7 @@
     <img :src="nextTrackCover" style="display: none" loading="lazy" />
     <img
       class="cover"
-      :src="track.album && track.album.picUrl | resizeImage(512)"
+      :src="track.album && resizeImage(track.album.picUrl, 512)"
       loading="lazy"
       @click="goToAlbum"
     />
@@ -86,6 +86,10 @@ export default {
     goToAlbum() {
       if (this.track.album.id === 0) return;
       this.$router.push({ path: '/album/' + this.track.album.id });
+    },
+    resizeImage(url, size = 512) {
+      if (!url) return '';
+      return `${url}?param=${size}y${size}`;
     },
     moveToFMTrash() {
       this.player.moveToFMTrash();

@@ -3,6 +3,7 @@ import {
   createWebHistory,
   createWebHashHistory,
 } from 'vue-router';
+import { isElectronDev } from '@/utils/env';
 import { isLooseLoggedIn, isAccountLoggedIn } from '@/utils/auth';
 
 const routes = [
@@ -142,10 +143,9 @@ const routes = [
 ];
 
 const router = createRouter({
-  history:
-    typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV
-      ? createWebHashHistory()
-      : createWebHistory(),
+  history: isElectronDev()
+    ? createWebHashHistory()
+    : createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
@@ -167,7 +167,7 @@ router.beforeEach((to, from, next) => {
     if (isLooseLoggedIn()) {
       next();
     } else {
-      if (process.env.IS_ELECTRON_DEV) {
+      if (isElectronDev()) {
         next({ path: '/login/account' });
       } else {
         next({ path: '/login' });

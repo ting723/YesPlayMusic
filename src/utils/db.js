@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Dexie from 'dexie';
 import store from '@/store';
+import { isElectronDev } from './env';
 // import pkg from "../../package.json";
 
 const db = new Dexie('yesplaymusic');
@@ -51,7 +52,7 @@ async function deleteExcessCache() {
 }
 
 export function cacheTrackSource(trackInfo, url, bitRate, from = 'netease') {
-  if (!process.env.IS_ELECTRON_DEV) return;
+  if (!isElectronDev()) return;
   const name = trackInfo.name;
   const artist =
     (trackInfo.ar && trackInfo.ar[0]?.name) ||

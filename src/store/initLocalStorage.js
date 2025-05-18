@@ -1,5 +1,6 @@
 import { playlistCategories } from '@/utils/staticData';
 import shortcuts from '@/utils/shortcuts';
+import { isElectronDev } from '@/utils/env';
 
 console.debug('[debug][initLocalStorage.js]');
 const enabledPlaylistCategories = playlistCategories
@@ -48,11 +49,7 @@ let localStorage = {
   },
 };
 
-if (
-  typeof process !== 'undefined' &&
-  process.env &&
-  process.env.IS_ELECTRON_DEV
-) {
+if (isElectronDev()) {
   localStorage.settings.automaticallyCacheSongs = true;
 }
 

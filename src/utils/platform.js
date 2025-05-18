@@ -1,15 +1,15 @@
+import { isElectron, isDev, isElectronDev } from './env';
+
 export const isWindows =
-  typeof process !== 'undefined' && process.platform === 'win32';
+  isElectron() && process.platform === 'win32';
 export const isMac =
-  typeof process !== 'undefined' && process.platform === 'darwin';
+  isElectron() && process.platform === 'darwin';
 export const isLinux =
-  typeof process !== 'undefined' && process.platform === 'linux';
-export const isDevelopment =
-  typeof process !== 'undefined' && process.env.NODE_ENV === 'development';
+  isElectron() && process.platform === 'linux';
+export const isDevelopment = isDev();
 
 export const isCreateTray =
-  typeof process !== 'undefined' &&
-  process.env.IS_ELECTRON_DEV &&
+  isElectronDev() &&
   (isWindows || isLinux || (isMac && !window?.electron?.app?.dock));
 export const isCreateMpris =
-  typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV && isLinux;
+  isElectronDev() && isLinux;

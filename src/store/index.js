@@ -4,12 +4,13 @@ import mutations from './mutations';
 import actions from './actions';
 import { changeAppearance } from '@/utils/common';
 import Player from '@/utils/Player';
+import { isElectronDev } from '@/utils/env';
 // vuex 自定义插件
 import saveToLocalStorage from './plugins/localStorage';
 import { getSendSettingsPlugin } from './plugins/sendSettings';
 
 let plugins = [saveToLocalStorage];
-if (typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV) {
+if (isElectronDev()) {
   let sendSettings = getSendSettingsPlugin();
   plugins.push(sendSettings);
 }

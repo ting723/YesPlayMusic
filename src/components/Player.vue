@@ -26,7 +26,7 @@
       <div class="playing">
         <div class="container" @click.stop>
           <img
-            :src="currentTrack.al && currentTrack.al.picUrl | resizeImage(224)"
+            :src="currentTrack.al && resizeImage(currentTrack.al.picUrl, 224)"
             loading="lazy"
             @click="goToAlbum"
           />
@@ -218,8 +218,8 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['toggleLyrics']),
-    ...mapActions(['showToast', 'likeATrack']),
+    ...mapMutations(['toggleLyrics', 'updatePlayerMode', 'updatePlayerShuffle', 'updatePlayerReversed']),
+    ...mapActions(['showToast', 'nextTrack', 'previousTrack', 'playPause', 'playNextTrack', 'playPrevTrack', 'moveToFMTrash', 'likeATrack']),
     playPrevTrack() {
       this.player.playPrevTrack();
     },
@@ -269,6 +269,21 @@ export default {
     },
     mute() {
       this.player.mute();
+    },
+  },
+  methods: {
+    toggleLyrics() {
+      this.$store.commit('toggleLyrics');
+    },
+    resizeImage(url, size = 224) {
+      if (!url) return '';
+      return `${url}?param=${size}y${size}`;
+    },
+    hasList() {
+      return hasListSource(this.player.currentTrack.id);
+    },
+    goToList() {
+      goToListSource(this.player.currentTrack.id);
     },
   },
 };

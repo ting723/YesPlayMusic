@@ -541,6 +541,10 @@ export default {
         this.$store.commit('enableScrolling', true);
       }
     },
+    resizeImage(url, size = 1024) {
+      if (!url) return '';
+      return `${url}?param=${size}y${size}`;
+    },
   },
 };
 </script>

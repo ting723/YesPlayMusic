@@ -27,7 +27,7 @@
     "@": "src",
     "@/utils": "src/utils"
   },
-  "main": "src/cbackground.js",
+  "main": "main.js",
   "homepage": "./",
   "build": {
     "appId": "yesplaymusic",

@@ -25,7 +25,7 @@
 <script>
 // icons by https://github.com/microsoft/vscode-codicons
 import '@vscode/codicons/dist/codicon.css';
-
+import { isElectron } from '@/utils/env';
 import { mapState } from 'vuex';
 
 const { ipcRenderer } = window.electron || {};
@@ -41,7 +41,10 @@ export default {
     ...mapState(['title']),
   },
   created() {
-    if (process.env.IS_ELECTRON === true) {
+
+// ...
+
+if (isElectron()) {
       ipcRenderer.on('isMaximized', (_, value) => {
         this.isMaximized = value;
       });

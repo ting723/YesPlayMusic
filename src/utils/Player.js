@@ -11,6 +11,7 @@ import { isCreateMpris, isCreateTray } from '@/utils/platform';
 import { Howl, Howler } from 'howler';
 import shuffle from 'lodash/shuffle';
 import { decode as base642Buffer } from '@/utils/base64';
+import { isElectron } from '@/utils/env';
 
 const PLAY_PAUSE_FADE_DURATION = 200;
 
@@ -25,10 +26,9 @@ const UNPLAYABLE_CONDITION = {
   PLAY_PREV_TRACK: 'playPrevTrack',
 };
 
-const ipcRenderer =
-  typeof process !== 'undefined' && process.env.IS_ELECTRON_DEV
-    ? window.electron?.ipcRenderer
-    : null;
+import { isElectronDev } from './env';
+
+const ipcRenderer = isElectronDev() ? window.electron?.ipcRenderer : null;
 const delay = ms =>
   new Promise(resolve => {
     setTimeout(() => {
@@ -45,24 +45,14 @@ function setTitle(track) {
   document.title = track
     ? `${track.name} · ${track.ar[0].name} - YesPlayMusic`
     : 'YesPlayMusic';
-  if (
-    typeof process !== 'undefined' &&
-    process.env.IS_ELECTRON_DEV &&
-    isCreateTray &&
-    ipcRenderer
-  ) {
+  if (isElectronDev() && isCreateTray && ipcRenderer) {
     ipcRenderer.send('updateTrayTooltip', document.title);
   }
   store.commit('updateTitle', document.title);
 }
 
 function setTrayLikeState(isLiked) {
-  if (
-    typeof process !== 'undefined' &&
-    process.env.IS_ELECTRON_DEV &&
-    isCreateTray &&
-    ipcRenderer
-  ) {
+  if (isElectronDev() && isCreateTray && ipcRenderer) {
     ipcRenderer.send('updateTrayLikeState', isLiked);
   }
 }
@@ -449,7 +439,7 @@ export default class {
     console.debug(`[debug][Player.js] _getAudioSourceFromUnblockMusic`);
 
     if (
-      process.env.IS_ELECTRON !== true ||
+      !isElectron() ||
       store.state.settings.enableUnblockNeteaseMusic === false
     ) {
       return null;
@@ -727,7 +717,7 @@ export default class {
   }
   _playDiscordPresence(track, seekTime = 0) {
     if (
-      process.env.IS_ELECTRON !== true ||
+      !isElectron() ||
       store.state.settings.enableDiscordRichPresence === false
     ) {
       return null;
@@ -738,7 +728,7 @@ export default class {
   }
   _pauseDiscordPresence(track) {
     if (
-      process.env.IS_ELECTRON !== true ||
+      !isElectron() ||
       store.state.settings.enableDiscordRichPresence === false
     ) {
       return null;
@@ -992,7 +982,7 @@ export default class {
   }
 
   sendSelfToIpcMain() {
-    if (process.env.IS_ELECTRON !== true) return false;
+    if (!isElectron()) return false;
     let liked = store.state.liked.songs.includes(this.currentTrack.id);
     ipcRenderer?.send('player', {
       playing: this.playing,

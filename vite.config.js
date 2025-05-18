@@ -6,9 +6,8 @@ import svgLoader from 'vite-svg-loader';
 import electron from 'vite-plugin-electron';
 import electronRenderer from 'vite-plugin-electron-renderer';
 
-function resolve(dir) {
-  return path.join(__dirname, dir);
-}
+// 环境变量配置
+const DEV_SERVER_PORT = process.env.VITE_DEV_SERVER_PORT || 8080;
 
 export default defineConfig(({ mode }) => ({
   optimizeDeps: {
@@ -35,7 +34,7 @@ export default defineConfig(({ mode }) => ({
       filename: 'service-worker.js',
     }),
     // 在electron插件配置中添加vite.resolve配置
-    process.env.IS_ELECTRON_DEV &&
+    mode === 'electron' &&
       electron([
         {
           entry: 'src/background.js',
@@ -61,7 +60,7 @@ export default defineConfig(({ mode }) => ({
           },
         },
       ]),
-    process.env.IS_ELECTRON_DEV &&
+    mode === 'electron' &&
       electronRenderer({
         preload: 'src/electron/preload.js',
         optimizeDeps: {
@@ -82,8 +81,9 @@ export default defineConfig(({ mode }) => ({
     },
   },
   server: {
+    base: '/',
     host: '127.0.0.1',
-    port: process.env.DEV_SERVER_PORT || 8080,
+    port: DEV_SERVER_PORT,
     strictPort: true,
     proxy: {
       '^/api': {
