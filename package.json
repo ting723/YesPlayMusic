@@ -6,7 +6,7 @@
   "description": "A third party music player for Netease Music",
   "author": "qier222<qier222@outlook.com>",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue src",
@@ -124,7 +124,7 @@
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "prettier": "2.5.1",
-    "sass": "^1.26.11",
+    "sass": "^1.87.0",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "url": "^0.11.4",

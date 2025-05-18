@@ -34,42 +34,7 @@ export default defineConfig(({ mode }) => ({
       filename: 'service-worker.js',
     }),
     // 在electron插件配置中添加vite.resolve配置
-    mode === 'electron' &&
-      electron([
-        {
-          entry: 'src/background.js',
-          preload: 'src/electron/preload.js',
-          vite: {
-            resolve: {
-              alias: {
-                '@': path.resolve(__dirname, 'src'),
-              },
-              extensions: ['.js', '.json', '.node'],
-            },
-            build: {
-              outDir: 'dist_electron',
-              rollupOptions: {
-                external: [
-                  '@unblockneteasemusic/rust-napi',
-                  'electron/tray',
-                  'electron/mpris',
-                  'electron/globalShortcut',
-                ],
-              },
-            },
-          },
-        },
-      ]),
-    mode === 'electron' &&
-      electronRenderer({
-        preload: 'src/electron/preload.js',
-        optimizeDeps: {
-          exclude: ['os', 'path'],
-        },
-        rollupOptions: {
-          external: ['electron'],
-        },
-      }),
+
   ].filter(Boolean),
   resolve: {
     alias: {
