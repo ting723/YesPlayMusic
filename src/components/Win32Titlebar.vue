@@ -41,10 +41,9 @@ export default {
     ...mapState(['title']),
   },
   created() {
+    // ...
 
-// ...
-
-if (isElectron()) {
+    if (isElectron()) {
       ipcRenderer.on('isMaximized', (_, value) => {
         this.isMaximized = value;
       });

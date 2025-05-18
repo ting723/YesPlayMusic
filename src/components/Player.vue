@@ -218,8 +218,22 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['toggleLyrics', 'updatePlayerMode', 'updatePlayerShuffle', 'updatePlayerReversed']),
-    ...mapActions(['showToast', 'nextTrack', 'previousTrack', 'playPause', 'playNextTrack', 'playPrevTrack', 'moveToFMTrash', 'likeATrack']),
+    ...mapMutations([
+      'toggleLyrics',
+      'updatePlayerMode',
+      'updatePlayerShuffle',
+      'updatePlayerReversed',
+    ]),
+    ...mapActions([
+      'showToast',
+      'nextTrack',
+      'previousTrack',
+      'playPause',
+      'playNextTrack',
+      'playPrevTrack',
+      'moveToFMTrash',
+      'likeATrack',
+    ]),
     playPrevTrack() {
       this.player.playPrevTrack();
     },

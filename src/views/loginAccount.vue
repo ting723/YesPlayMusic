@@ -145,10 +145,9 @@ export default {
   },
   computed: {
     isElectron() {
+      // ...
 
-// ...
-
-return isElectronDev();
+      return isElectronDev();
     },
   },
   created() {

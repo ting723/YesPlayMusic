@@ -312,7 +312,7 @@ class Background {
     if (isDevelopment) {
       // Load the url of the dev server of Vite.
       const devServerUrl = import.meta.env.VITE_DEV_SERVER_URL;
-if (devServerUrl) {
+      if (devServerUrl) {
         this.window.loadURL(devServerUrl);
       } else {
         this.window.loadFile(

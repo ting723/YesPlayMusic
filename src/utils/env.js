@@ -1,11 +1,12 @@
 // 统一环境变量访问
-export const isElectron = () => typeof window !== 'undefined' && window.process?.type;
+export const isElectron = () =>
+  typeof window !== 'undefined' && window.process?.type;
 
 // 判断开发环境
 export const isDev = () => import.meta.env.DEV;
 
 // 获取环境变量
-export const getEnv = (key) => {
+export const getEnv = key => {
   if (isElectron()) {
     return process.env[key];
   } else {
@@ -14,7 +15,7 @@ export const getEnv = (key) => {
 };
 
 // 安全获取环境变量（防止浏览器环境报错）
-export const safeGetEnv = (key) => {
+export const safeGetEnv = key => {
   try {
     return getEnv(key);
   } catch (e) {
@@ -29,9 +30,7 @@ export const getBaseURL = () => {
       ? import.meta.env.VITE_ELECTRON_API_URL_DEV
       : import.meta.env.VITE_ELECTRON_API_URL;
   } else {
-    return isDev()
-      ? '/api'
-      : import.meta.env.VITE_NETEASE_API_URL;
+    return isDev() ? '/api' : import.meta.env.VITE_NETEASE_API_URL;
   }
 };
 
@@ -61,7 +60,7 @@ export const electronInvoke = async (channel, ...args) => {
 export const getLastFMConfig = () => {
   return {
     apiKey: safeGetEnv('VUE_APP_LASTFM_API_KEY'),
-    apiSharedSecret: safeGetEnv('VUE_APP_LASTFM_API_SHARED_SECRET')
+    apiSharedSecret: safeGetEnv('VUE_APP_LASTFM_API_SHARED_SECRET'),
   };
 };
 

@@ -15,11 +15,7 @@ service.interceptors.request.use(function (config) {
   console.log('Request URL:', config.url);
   if (!config.params) config.params = {};
   if (baseURL.length) {
-    if (
-      baseURL[0] !== '/' &&
-      !isElectron() &&
-      getCookie('MUSIC_U') !== null
-    ) {
+    if (baseURL[0] !== '/' && !isElectron() && getCookie('MUSIC_U') !== null) {
       config.params.cookie = `MUSIC_U=${getCookie('MUSIC_U')};`;
     }
   } else {
