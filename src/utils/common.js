@@ -126,9 +126,10 @@ export function changeAppearance(appearance) {
       : 'light';
   }
   document.body.setAttribute('data-theme', appearance);
-  document
-    .querySelector('meta[name="theme-color"]')
-    .setAttribute('content', appearance === 'dark' ? '#222' : '#fff');
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+  if (themeColorMeta) {
+    themeColorMeta.setAttribute('content', appearance === 'dark' ? '#222' : '#fff');
+  }
 }
 
 export function splitSoundtrackAlbumTitle(title) {

@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: {
     include: ['NeteaseCloudMusicApi'],
   },
-  root: process.cwd(),
+  root: path.resolve(__dirname),
   base: mode === 'electron' ? './' : '/',
   plugins: [
     vue(),
@@ -81,7 +81,6 @@ export default defineConfig(({ mode }) => ({
     },
   },
   server: {
-    base: '/',
     host: '127.0.0.1',
     port: DEV_SERVER_PORT,
     strictPort: true,
