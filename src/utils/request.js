@@ -50,7 +50,13 @@ service.interceptors.response.use(
     const res = response.data;
 
     // Recursive function to modify image URLs
-    const imageUrlKeys = ['picUrl', 'img1v1Url', 'coverUrl','coverImgUrl','blurPicUrl'];
+    const imageUrlKeys = [
+      'picUrl',
+      'img1v1Url',
+      'coverUrl',
+      'coverImgUrl',
+      'blurPicUrl',
+    ];
     function modifyImageUrls(data) {
       if (data === null || typeof data !== 'object') {
         return data;

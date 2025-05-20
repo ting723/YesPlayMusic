@@ -431,7 +431,9 @@ export default class {
       });
     } else {
       return new Promise(resolve => {
-        resolve(`/proxy/https://music.163.com/song/media/outer/url?id=${track.id}`);
+        resolve(
+          `/proxy/https://music.163.com/song/media/outer/url?id=${track.id}`
+        );
       });
     }
   }
