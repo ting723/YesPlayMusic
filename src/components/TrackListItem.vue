@@ -79,7 +79,7 @@
       </button>
     </div>
     <div v-if="showTrackTime" class="time">
-      {{ track.dt | formatTime }}
+      {{ formattedTrackTime }}
     </div>
 
     <div v-if="track.playCount" class="count"> {{ track.playCount }}</div>
@@ -92,6 +92,7 @@ import ExplicitSymbol from '@/components/ExplicitSymbol.vue';
 import { mapState } from 'vuex';
 import { isNil } from 'lodash';
 import { isElectronDev } from '@/utils/env';
+import { formatTrackTime } from '@/utils/common';
 
 export default {
   name: 'TrackListItem',
@@ -198,252 +199,219 @@ export default {
         : true;
     },
     showLikeButton() {
-      return this.type !== 'tracklist' && this.type !== 'cloudDisk';
-    },
-    showOrderNumber() {
-      return this.type === 'album';
+      return (
+        this.type !== 'cloudDisk' &&
+        this.type !== 'tracklist' &&
+        this.type !== 'album'
+      );
     },
     showAlbumName() {
-      return this.type !== 'album' && this.type !== 'tracklist';
+      return this.type !== 'album';
+    },
+    showOrderNumber() {
+      return this.type !== 'album';
     },
     showTrackTime() {
-      return this.type !== 'tracklist';
+      return this.type !== 'album';
     },
+    formattedTrackTime() {
+      return formatTrackTime(this.track?.dt);
+    }
   },
 
   methods: {
-    goToAlbum() {
-      if (this.track.al.id === 0) return;
-      this.$router.push({ path: '/album/' + this.track.al.id });
-    },
     playTrack() {
-      this.$parent.playThisList(this.track.id);
+      this.$store.state.player.playTrack(this.track.id);
+    },
+    goToAlbum() {
+      this.$router.push({
+        path: '/album/' + this.album.id,
+      });
     },
     likeThisSong() {
-      this.$parent.likeATrack(this.track.id);
+      this.$parent.like(this.track.id);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  background: transparent;
-  border-radius: 25%;
-  transition: transform 0.2s;
-  .svg-icon {
-    height: 16px;
-    width: 16px;
-    color: var(--color-primary);
-  }
-  &:hover {
-    transform: scale(1.12);
-  }
-  &:active {
-    transform: scale(0.96);
-  }
-}
-
 .track {
   display: flex;
   align-items: center;
   padding: 8px;
   border-radius: 12px;
-  user-select: none;
-
-  .no {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-    margin: 0 20px 0 10px;
-    width: 12px;
-    color: var(--color-text);
-    cursor: default;
-    span {
-      opacity: 0.58;
-    }
-  }
-
-  .explicit-symbol {
-    opacity: 0.28;
-    color: var(--color-text);
-    .svg-icon {
-      margin-bottom: -3px;
-    }
-  }
-
-  .explicit-symbol.before-artist {
-    .svg-icon {
-      margin-bottom: -3px;
-    }
-  }
+  width: 100%;
+  height: 46px;
+  margin-bottom: 2px;
+  cursor: default;
 
   img {
+    height: 30px;
+    width: 30px;
     border-radius: 8px;
-    height: 46px;
-    width: 46px;
-    margin-right: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.04);
+    margin-right: 14px;
     cursor: pointer;
+    transition: filter 0.3s;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    &.hover {
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+    }
   }
 
-  img.hover {
-    filter: drop-shadow(100 200 0 black);
+  .no {
+    font-size: 1rem;
+    width: 20px;
+    margin-right: 14px;
+    flex-shrink: 0;
+    color: var(--color-text);
+    text-align: unset;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+    button {
+      color: var(--color-primary);
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .title-and-artist {
     flex: 1;
     display: flex;
+    flex-direction: column;
     .container {
       display: flex;
-      flex-direction: column;
+      align-items: center;
     }
     .title {
-      font-size: 18px;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--color-text);
       cursor: default;
-      padding-right: 16px;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
       overflow: hidden;
-      word-break: break-all;
-      .featured {
-        margin-right: 2px;
-        font-weight: 500;
-        font-size: 14px;
-        opacity: 0.72;
-      }
+      word-wrap: break-word;
       .sub-title {
-        color: #7a7a7a;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--color-text);
         opacity: 0.7;
         margin-left: 4px;
+      }
+      .featured {
+        font-weight: 500;
+        opacity: 0.7;
       }
     }
     .artist {
       margin-top: 2px;
-      font-size: 13px;
-      opacity: 0.68;
+      font-size: 0.9rem;
+      opacity: 0.8;
       color: var(--color-text);
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1;
       overflow: hidden;
-      a {
-        span {
-          margin-right: 3px;
-          opacity: 0.8;
-        }
-        &:hover {
-          text-decoration: underline;
-          cursor: pointer;
-        }
+      word-wrap: break-word;
+    }
+  }
+
+  .album {
+    flex: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+    margin-right: 10px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    color: var(--color-text);
+    cursor: default;
+  }
+
+  .time,
+  .count {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    color: var(--color-text);
+    min-width: 28px;
+    margin-left: 10px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .actions {
+    width: 40px;
+    display: flex;
+    justify-content: flex-end;
+    button {
+      opacity: 0.2;
+      color: var(--color-primary);
+      &:hover {
+        opacity: 0.7;
       }
     }
   }
-  .album {
-    flex: 1;
-    display: flex;
-    font-size: 16px;
-    opacity: 0.88;
-    color: var(--color-text);
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-  }
-  .time,
-  .count {
-    font-size: 16px;
-    width: 50px;
-    cursor: default;
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 10px;
-    font-variant-numeric: tabular-nums;
-    opacity: 0.88;
-    color: var(--color-text);
-  }
-  .count {
-    font-weight: bold;
-    font-size: 22px;
-    line-height: 22px;
-  }
-}
 
-.track.focus {
-  transition: all 0.3s;
-  background: var(--color-secondary-bg);
-}
-
-.track.disable {
-  img {
-    filter: grayscale(1) opacity(0.6);
-  }
-  .title,
-  .artist,
-  .album,
-  .time,
-  .no,
-  .featured {
-    opacity: 0.28 !important;
-  }
   &:hover {
-    background: none;
+    background-color: var(--color-secondary-bg-for-transparent);
   }
-}
 
-.track.tracklist {
-  img {
-    height: 36px;
-    width: 36px;
-    border-radius: 6px;
-    margin-right: 14px;
-    cursor: pointer;
+  &.playing {
+    background-color: var(--color-primary-bg-for-transparent);
+    color: var(--color-primary);
+    .title,
+    .artist,
+    .album,
+    .time,
+    .count {
+      color: var(--color-primary);
+    }
+    .artist,
+    .album,
+    .time,
+    .count {
+      opacity: 0.8;
+    }
+    .actions button {
+      color: var(--color-primary);
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
-  .title {
-    font-size: 16px;
-  }
-  .artist {
-    font-size: 12px;
+
+  &.disable {
+    .title,
+    .artist,
+    .album,
+    .time,
+    .count {
+      color: var(--color-text);
+      opacity: 0.2;
+    }
   }
 }
 
 .track.album {
-  height: 32px;
-}
-
-.actions {
-  width: 80px;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.track.playing {
-  background: var(--color-primary-bg);
-  color: var(--color-primary);
-  .title,
-  .album,
-  .time,
-  .title-and-artist .sub-title {
-    color: var(--color-primary);
-  }
-  .title .featured,
-  .artist,
-  .explicit-symbol,
-  .count {
-    color: var(--color-primary);
-    opacity: 0.88;
-  }
-  .no span {
-    color: var(--color-primary);
-    opacity: 0.78;
+  img {
+    display: none;
   }
 }
 </style>

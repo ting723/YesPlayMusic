@@ -44,7 +44,7 @@
       </div>
       <ButtonTwoTone
         v-show="activeUser.nickname !== undefined"
-        @click.native="confirm"
+        @click="confirm"
       >
         {{ $t('login.confirm') }}
       </ButtonTwoTone>

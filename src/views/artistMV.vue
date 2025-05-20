@@ -9,7 +9,7 @@
     </h1>
     <MvRow :mvs="mvs" subtitle="publishTime" />
     <div class="load-more">
-      <ButtonTwoTone v-show="hasMore" color="grey" @click.native="loadMVs">{{
+      <ButtonTwoTone v-show="hasMore" color="grey" @click="loadMVs">{{
         $t('explore.loadMore')
       }}</ButtonTwoTone>
     </div>
