@@ -35,7 +35,7 @@
           >
           <a
             v-else
-            :href="`https://music.163.com/#/user/home?id=${playlist.creator.userId}`"
+            :href="`/proxy/https://music.163.com/#/user/home?id=${playlist.creator.userId}`"
             target="blank"
             >{{ playlist.creator.nickname }}</a
           >

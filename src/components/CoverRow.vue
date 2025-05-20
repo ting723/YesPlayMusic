@@ -107,7 +107,7 @@ export default {
         img1v1ID = img1v1ID[img1v1ID.length - 1];
         if (img1v1ID === '5639395138885805.jpg') {
           // 没有头像的歌手，网易云返回的img1v1Url并不是正方形的 😅😅😅
-          return 'https://p2.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg?param=512y512';
+          return '/proxy/https://p2.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg?param=512y512';
         }
       }
       let img = item.img1v1Url || item.picUrl || item.coverImgUrl;

@@ -48,6 +48,36 @@ service.interceptors.request.use(function (config) {
 service.interceptors.response.use(
   response => {
     const res = response.data;
+
+    // Recursive function to modify image URLs
+    const imageUrlKeys = ['picUrl', 'img1v1Url', 'coverUrl','coverImgUrl','blurPicUrl'];
+    function modifyImageUrls(data) {
+      if (data === null || typeof data !== 'object') {
+        return data;
+      }
+
+      if (Array.isArray(data)) {
+        for (let i = 0; i < data.length; i++) {
+          data[i] = modifyImageUrls(data[i]);
+        }
+      } else {
+        for (const key in data) {
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            if (typeof data[key] === 'string' && imageUrlKeys.includes(key)) {
+              if (!data[key].startsWith('/proxy')) {
+                data[key] = '/proxy/' + data[key];
+              }
+            } else {
+              data[key] = modifyImageUrls(data[key]);
+            }
+          }
+        }
+      }
+      return data;
+    }
+
+    modifyImageUrls(res);
+
     return res;
   },
   async error => {

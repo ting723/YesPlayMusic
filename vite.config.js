@@ -56,6 +56,11 @@ export default defineConfig(({ mode }) => ({
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '/'),
       },
+      '^/proxy': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/proxy/, '/proxy'),
+      },
     },
   },
   build: {

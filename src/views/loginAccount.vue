@@ -239,7 +239,7 @@ export default {
         if (result.code === 200) {
           this.qrCodeKey = result.data.unikey;
           QRCode.toString(
-            `https://music.163.com/login?codekey=${this.qrCodeKey}`,
+            `/proxy/https://music.163.com/login?codekey=${this.qrCodeKey}`,
             {
               width: 192,
               margin: 0,

@@ -274,7 +274,7 @@ export default {
     },
     copyLink() {
       this.$copyText(
-        `https://music.163.com/song?id=${this.rightClickedTrack.id}`
+        `/proxy/https://music.163.com/song?id=${this.rightClickedTrack.id}`
       )
         .then(() => {
           this.showToast(locale.t('toast.copied'));

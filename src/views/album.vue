@@ -313,7 +313,7 @@ export default {
     },
     copyUrl(id) {
       let showToast = this.showToast;
-      this.$copyText(`https://music.163.com/#/album?id=${id}`)
+      this.$copyText(`/proxy/https://music.163.com/#/album?id=${id}`)
         .then(function () {
           showToast(locale.t('toast.copied'));
         })
@@ -322,7 +322,7 @@ export default {
         });
     },
     openInBrowser(id) {
-      const url = `https://music.163.com/#/album?id=${id}`;
+      const url = `/proxy/https://music.163.com/#/album?id=${id}`;
       window.open(url);
     },
   },
