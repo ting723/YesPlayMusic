@@ -44,10 +44,7 @@
           {{ album.description }}
         </div>
         <div class="buttons" style="margin-top: 32px">
-          <ButtonTwoTone
-            icon-class="play"
-            @click="playAlbumByID(album.id)"
-          >
+          <ButtonTwoTone icon-class="play" @click="playAlbumByID(album.id)">
             {{ $t('common.play') }}
           </ButtonTwoTone>
           <ButtonTwoTone

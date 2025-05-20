@@ -216,7 +216,7 @@ export default {
     },
     formattedTrackTime() {
       return formatTrackTime(this.track?.dt);
-    }
+    },
   },
 
   methods: {

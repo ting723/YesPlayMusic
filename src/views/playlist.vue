@@ -7,7 +7,6 @@
       <Cover
         :id="playlist.id"
         :image-url="resizeImage(playlist.coverImgUrl || '', 1024)"
-
         :show-play-button="true"
         :always-show-shadow="true"
         :click-cover-to-play="true"
@@ -122,9 +121,9 @@
           :color="playlist.subscribed ? 'blue' : 'grey'"
           :text-color="playlist.subscribed ? '#335eea' : ''"
           :background-color="
-              playlist.subscribed ? 'var(--color-secondary-bg)' : ''
-            "
-            @click="likePlaylist"
+            playlist.subscribed ? 'var(--color-secondary-bg)' : ''
+          "
+          @click="likePlaylist"
         >
         </ButtonTwoTone>
         <ButtonTwoTone
@@ -549,7 +548,7 @@ export default {
     },
     formatDate(date) {
       return dayjs(date).format('YYYY-MM-DD');
-    }
+    },
   },
 };
 </script>
