@@ -217,8 +217,8 @@ const audioSource = computed(() =>
 );
 
 const toggleLyrics = () => store.commit('toggleLyrics');
-const showToast = (msg) => store.dispatch('showToast', msg);
-const likeATrack = (id) => store.dispatch('likeATrack', id);
+const showToast = msg => store.dispatch('showToast', msg);
+const likeATrack = id => store.dispatch('likeATrack', id);
 
 const playPrevTrack = () => player.value.playPrevTrack();
 const playOrPause = () => player.value.playOrPause();
@@ -240,7 +240,7 @@ const goToAlbum = () => {
   router.push({ path: '/album/' + player.value.currentTrack.al.id });
 };
 
-const goToArtist = (id) => {
+const goToArtist = id => {
   router.push({ path: '/artist/' + id });
 };
 
@@ -268,7 +268,6 @@ const mute = () => {
 
 const hasList = hasListSource;
 const goToList = goToListSource;
-
 </script>
 
 <style lang="scss" scoped>
