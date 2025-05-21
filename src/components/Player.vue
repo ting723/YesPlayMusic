@@ -104,7 +104,7 @@
           <button-icon
             :title="$t('player.nextUp')"
             :class="{
-              active: $route.name === 'next',
+              active: route.name === 'next',
               disabled: player.isPersonalFM,
             }"
             @click="goToNextTracksPage"
@@ -180,127 +180,95 @@
   </div>
 </template>
 
-<script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+<script setup>
+import { computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 import '@/assets/css/slider.css';
 
 import ButtonIcon from '@/components/ButtonIcon.vue';
 import VueSlider from 'vue-slider-component';
-import { goToListSource, hasListSource } from '@/utils/playList';
 import { formatTrackTime } from '@/utils/common';
+import { goToListSource, hasListSource } from '@/utils/playList';
 
-export default {
-  name: 'Player',
-  components: {
-    ButtonIcon,
-    VueSlider,
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+
+const player = computed(() => store.state.player);
+const settings = computed(() => store.state.settings);
+const data = computed(() => store.state.data);
+
+const currentTrack = computed(() => player.value.currentTrack);
+
+const volume = computed({
+  get() {
+    return player.value.volume;
   },
-  computed: {
-    ...mapState(['player', 'settings', 'data']),
-    currentTrack() {
-      return this.player.currentTrack;
-    },
-    volume: {
-      get() {
-        return this.player.volume;
-      },
-      set(value) {
-        this.player.volume = value;
-      },
-    },
-    playing() {
-      return this.player.playing;
-    },
-    audioSource() {
-      return this.player._howler?._src.includes('kuwo.cn')
-        ? '音源来自酷我音乐'
-        : '';
-    },
+  set(value) {
+    store.commit('player/setVolume', value); // Assuming a mutation exists to set volume
   },
-  methods: {
-    ...mapMutations([
-      'toggleLyrics',
-      'updatePlayerMode',
-      'updatePlayerShuffle',
-      'updatePlayerReversed',
-    ]),
-    ...mapActions([
-      'showToast',
-      'nextTrack',
-      'previousTrack',
-      'playPause',
-      'playNextTrack',
-      'playPrevTrack',
-      'moveToFMTrash',
-      'likeATrack',
-    ]),
-    playPrevTrack() {
-      this.player.playPrevTrack();
-    },
-    playOrPause() {
-      this.player.playOrPause();
-    },
-    playNextTrack() {
-      if (this.player.isPersonalFM) {
-        this.player.playNextFMTrack();
-      } else {
-        this.player.playNextTrack();
-      }
-    },
-    goToNextTracksPage() {
-      if (this.player.isPersonalFM) return;
-      this.$route.name === 'next'
-        ? this.$router.go(-1)
-        : this.$router.push({ name: 'next' });
-    },
-    formatTrackTime(value) {
-      return formatTrackTime(value);
-    },
-    hasList() {
-      return hasListSource();
-    },
-    goToList() {
-      goToListSource();
-    },
-    goToAlbum() {
-      if (this.player.currentTrack.al.id === 0) return;
-      this.$router.push({ path: '/album/' + this.player.currentTrack.al.id });
-    },
-    goToArtist(id) {
-      this.$router.push({ path: '/artist/' + id });
-    },
-    moveToFMTrash() {
-      this.player.moveToFMTrash();
-    },
-    switchRepeatMode() {
-      this.player.switchRepeatMode();
-    },
-    switchShuffle() {
-      this.player.switchShuffle();
-    },
-    switchReversed() {
-      this.player.switchReversed();
-    },
-    mute() {
-      this.player.mute();
-    },
-  },
-  methods: {
-    toggleLyrics() {
-      this.$store.commit('toggleLyrics');
-    },
-    resizeImage(url, size = 224) {
-      if (!url) return '';
-      return `${url}?param=${size}y${size}`;
-    },
-    hasList() {
-      return hasListSource(this.player.currentTrack.id);
-    },
-    goToList() {
-      goToListSource(this.player.currentTrack.id);
-    },
-  },
+});
+
+const playing = computed(() => player.value.playing);
+
+const audioSource = computed(() =>
+  player.value._howler?._src.includes('kuwo.cn') ? '音源来自酷我音乐' : ''
+);
+
+const toggleLyrics = () => store.commit('toggleLyrics');
+const showToast = (msg) => store.dispatch('showToast', msg);
+const likeATrack = (id) => store.dispatch('likeATrack', id);
+
+const playPrevTrack = () => player.value.playPrevTrack();
+const playOrPause = () => player.value.playOrPause();
+const playNextTrack = () => {
+  if (player.value.isPersonalFM) {
+    player.value.playNextFMTrack();
+  } else {
+    player.value.playNextTrack();
+  }
 };
+
+const goToNextTracksPage = () => {
+  if (player.value.isPersonalFM) return;
+  route.name === 'next' ? router.go(-1) : router.push({ name: 'next' });
+};
+
+const goToAlbum = () => {
+  if (player.value.currentTrack.al.id === 0) return;
+  router.push({ path: '/album/' + player.value.currentTrack.al.id });
+};
+
+const goToArtist = (id) => {
+  router.push({ path: '/artist/' + id });
+};
+
+const moveToFMTrash = () => {
+  player.value.moveToFMTrash();
+};
+
+const switchRepeatMode = () => {
+  player.value.switchRepeatMode();
+};
+
+const switchShuffle = () => {
+  player.value.switchShuffle();
+};
+
+const switchReversed = () => {
+  player.value.switchReversed();
+};
+
+const mute = () => {
+  player.value.mute();
+};
+
+// No need to convert formatTrackTime, hasList, goToList as they are imported functions
+
+const hasList = hasListSource;
+const goToList = goToListSource;
+
 </script>
 
 <style lang="scss" scoped>
