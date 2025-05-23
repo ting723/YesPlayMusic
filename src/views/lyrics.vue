@@ -1029,8 +1029,8 @@ export default {
   .svg-icon {
     color: var(--color-text);
     padding-top: 5px;
-    height: 22px;
-    width: 22px;
+    height: 32px;
+    width: 32px;
   }
 
   &:hover {
