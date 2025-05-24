@@ -150,7 +150,7 @@ const router = createRouter({
 });
 
 // Global error handler for router
-router.onError((error) => {
+router.onError(error => {
   console.error('Router error:', error);
 });
 

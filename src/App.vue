@@ -9,9 +9,17 @@
     >
       <router-view v-slot="{ Component, route }">
         <keep-alive>
-          <component :is="Component" :key="route.fullPath" v-if="route && route.meta && route.meta.keepAlive" />
+          <component
+            :is="Component"
+            :key="route.fullPath"
+            v-if="route && route.meta && route.meta.keepAlive"
+          />
         </keep-alive>
-        <component :is="Component" :key="route.fullPath" v-if="!(route && route.meta && route.meta.keepAlive)" />
+        <component
+          :is="Component"
+          :key="route.fullPath"
+          v-if="!(route && route.meta && route.meta.keepAlive)"
+        />
       </router-view>
     </main>
     <transition name="slide-up">
