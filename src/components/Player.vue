@@ -26,7 +26,9 @@
       <div class="playing">
         <div class="container" @click.stop>
           <img
-            :src="currentTrack.al ? resizeImage(currentTrack.al.picUrl, 224) : ''"
+            :src="
+              currentTrack.al ? resizeImage(currentTrack.al.picUrl, 224) : ''
+            "
             loading="lazy"
             @click="goToAlbum"
           />
@@ -51,7 +53,9 @@
           <div class="like-button">
             <button-icon
               :title="
-                player.isCurrentTrackLiked ? $t('player.unlike') : $t('player.like')
+                player.isCurrentTrackLiked
+                  ? $t('player.unlike')
+                  : $t('player.like')
               "
               @click="likeATrack(player.currentTrack.id)"
             >
@@ -77,7 +81,10 @@
             @click="playPrevTrack"
             ><svg-icon icon-class="previous"
           /></button-icon>
-          <button-icon v-show="player.isPersonalFM" title="不喜欢" @click="moveToFMTrash"
+          <button-icon
+            v-show="player.isPersonalFM"
+            title="不喜欢"
+            @click="moveToFMTrash"
             ><svg-icon icon-class="thumbs-down"
           /></button-icon>
           <button-icon
@@ -111,12 +118,20 @@
               disabled: player.isPersonalFM,
             }"
             :title="
-              player.repeatMode === 'one' ? $t('player.repeatTrack') : $t('player.repeat')
+              player.repeatMode === 'one'
+                ? $t('player.repeatTrack')
+                : $t('player.repeat')
             "
             @click="switchRepeatMode"
           >
-            <svg-icon v-show="player.repeatMode !== 'one'" icon-class="repeat" />
-            <svg-icon v-show="player.repeatMode === 'one'" icon-class="repeat-1" />
+            <svg-icon
+              v-show="player.repeatMode !== 'one'"
+              icon-class="repeat"
+            />
+            <svg-icon
+              v-show="player.repeatMode === 'one'"
+              icon-class="repeat-1"
+            />
           </button-icon>
           <button-icon
             :class="{ active: player.shuffle, disabled: player.isPersonalFM }"
@@ -135,7 +150,10 @@
             <button-icon :title="$t('player.mute')" @click="mute">
               <svg-icon v-show="volume > 0.5" icon-class="volume" />
               <svg-icon v-show="volume === 0" icon-class="volume-mute" />
-              <svg-icon v-show="volume <= 0.5 && volume !== 0" icon-class="volume-half" />
+              <svg-icon
+                v-show="volume <= 0.5 && volume !== 0"
+                icon-class="volume-half"
+              />
             </button-icon>
             <div class="volume-bar">
               <vue-slider
@@ -160,17 +178,17 @@
 </template>
 
 <script setup>
-import { computed, watch } from "vue";
-import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
-import "@/assets/css/slider.css";
+import { computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
+import '@/assets/css/slider.css';
 
-import ButtonIcon from "@/components/ButtonIcon.vue";
-import VueSlider from "vue-slider-component";
-import { formatTrackTime } from "@/utils/common";
-import { goToListSource, hasListSource } from "@/utils/playList";
+import ButtonIcon from '@/components/ButtonIcon.vue';
+import VueSlider from 'vue-slider-component';
+import { formatTrackTime } from '@/utils/common';
+import { goToListSource, hasListSource } from '@/utils/playList';
 
-import { resizeImage } from "@/utils/filters";
+import { resizeImage } from '@/utils/filters';
 
 const store = useStore();
 const route = useRoute();
@@ -194,12 +212,12 @@ const volume = computed({
 const playing = computed(() => player.value.playing);
 
 const audioSource = computed(() =>
-  player.value._howler?._src.includes("kuwo.cn") ? "音源来自酷我音乐" : ""
+  player.value._howler?._src.includes('kuwo.cn') ? '音源来自酷我音乐' : ''
 );
 
-const toggleLyrics = () => store.commit("toggleLyrics");
-const showToast = (msg) => store.dispatch("showToast", msg);
-const likeATrack = (id) => store.dispatch("likeATrack", id);
+const toggleLyrics = () => store.commit('toggleLyrics');
+const showToast = msg => store.dispatch('showToast', msg);
+const likeATrack = id => store.dispatch('likeATrack', id);
 
 const playPrevTrack = () => player.value.playPrevTrack();
 const playOrPause = () => player.value.playOrPause();
@@ -213,16 +231,16 @@ const playNextTrack = () => {
 
 const goToNextTracksPage = () => {
   if (player.value.isPersonalFM) return;
-  route.name === "next" ? router.go(-1) : router.push({ name: "next" });
+  route.name === 'next' ? router.go(-1) : router.push({ name: 'next' });
 };
 
 const goToAlbum = () => {
   if (player.value.currentTrack.al.id === 0) return;
-  router.push({ path: "/album/" + player.value.currentTrack.al.id });
+  router.push({ path: '/album/' + player.value.currentTrack.al.id });
 };
 
-const goToArtist = (id) => {
-  router.push({ path: "/artist/" + id });
+const goToArtist = id => {
+  router.push({ path: '/artist/' + id });
 };
 
 const moveToFMTrash = () => {
