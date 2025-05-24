@@ -149,6 +149,11 @@ const router = createRouter({
   routes,
 });
 
+// Global error handler for router
+router.onError((error) => {
+  console.error('Router error:', error);
+});
+
 const originalPush = router.push;
 router.push = function push(location) {
   return originalPush.call(this, location).catch(err => err);

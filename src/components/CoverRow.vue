@@ -65,6 +65,7 @@ export default {
     },
   },
   methods: {
+    formatPlayCount,
     getSubText(item) {
       if (this.subText === 'copywriter') return item.copywriter;
       if (this.subText === 'description') return item.description;
