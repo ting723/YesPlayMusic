@@ -16,7 +16,7 @@
         <div v-if="showPlayCount" class="info">
           <span class="play-count"
             ><svg-icon icon-class="play" />{{
-              item.playCount | formatPlayCount
+              formatPlayCount(item.playCount)
             }}
           </span>
         </div>
@@ -40,6 +40,7 @@
 <script>
 import Cover from '@/components/Cover.vue';
 import ExplicitSymbol from '@/components/ExplicitSymbol.vue';
+import { formatPlayCount } from '@/utils/filters';
 
 export default {
   name: 'CoverRow',

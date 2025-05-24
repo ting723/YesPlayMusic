@@ -33,7 +33,7 @@
           >
             <img
               class="head"
-              :src="user.avatarUrl | resizeImage"
+              :src="resizeImage(user.avatarUrl)"
               loading="lazy"
             />
             <div class="nickname">
@@ -57,6 +57,7 @@ import { mapMutations } from 'vuex';
 import NProgress from 'nprogress';
 import { search } from '@/api/others';
 import { userPlaylist } from '@/api/user';
+import { resizeImage } from '@/utils/filters';
 import { throttle } from '@/utils/common';
 
 import ButtonTwoTone from '@/components/ButtonTwoTone.vue';

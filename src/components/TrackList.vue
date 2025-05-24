@@ -3,7 +3,7 @@
     <ContextMenu ref="menu">
       <div v-show="type !== 'cloudDisk'" class="item-info">
         <img
-          :src="rightClickedTrackComputed.al.picUrl | resizeImage(224)"
+          :src="resizeImage(rightClickedTrackComputed.al.picUrl, 224)"
           loading="lazy"
         />
         <div class="info">
@@ -79,6 +79,7 @@ import { mapActions, mapMutations, mapState } from 'vuex';
 import { addOrRemoveTrackFromPlaylist } from '@/api/playlist';
 import { cloudDiskTrackDelete } from '@/api/user';
 import { isAccountLoggedIn } from '@/utils/auth';
+import { resizeImage } from '@/utils/filters';
 
 import TrackListItem from '@/components/TrackListItem.vue';
 import ContextMenu from '@/components/ContextMenu.vue';

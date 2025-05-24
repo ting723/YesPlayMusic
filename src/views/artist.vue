@@ -2,7 +2,7 @@
   <div v-show="show" class="artist-page">
     <div class="artist-info">
       <div class="head">
-        <img :src="artist.img1v1Url | resizeImage(1024)" loading="lazy" />
+        <img :src="resizeImage(artist.img1v1Url, 1024)" loading="lazy" />
       </div>
       <div>
         <div class="name">{{ artist.name }}</div>
@@ -48,7 +48,7 @@
         <div class="container">
           <Cover
             :id="latestRelease.id"
-            :image-url="latestRelease.picUrl | resizeImage"
+            :image-url="resizeImage(latestRelease.picUrl)"
             type="album"
             :fixed-size="128"
             :play-button-size="30"
@@ -60,10 +60,10 @@
               }}</router-link>
             </div>
             <div class="date">
-              {{ latestRelease.publishTime | formatDate }}
+              {{ formatDate(latestRelease.publishTime) }}
             </div>
             <div class="type">
-              {{ latestRelease.type | formatAlbumType(latestRelease) }} ·
+              {{ formatAlbumType(latestRelease.type, latestRelease) }} ·
               {{ latestRelease.size }} {{ $t('common.songs') }}
             </div>
           </div>
@@ -93,7 +93,7 @@
               }}</router-link>
             </div>
             <div class="date">
-              {{ latestMV.publishTime | formatDate }}
+              {{ formatDate(latestMV.publishTime) }}
             </div>
             <div class="type">{{ $t('artist.latestMV') }}</div>
           </div>
@@ -187,6 +187,7 @@ import {
 } from '@/api/artist';
 import { getTrackDetail } from '@/api/track';
 import locale from '@/locale';
+import { resizeImage, formatDate, formatAlbumType } from '@/utils/filters';
 import { isAccountLoggedIn } from '@/utils/auth';
 import NProgress from 'nprogress';
 

@@ -141,7 +141,7 @@
       <h1>
         <img
           class="avatar"
-          :src="data.user.avatarUrl | resizeImage"
+          :src="resizeImage(data.user.avatarUrl)"
           loading="lazy"
         />
         {{ data.user.nickname }}{{ $t('library.sLikedSongs') }}
@@ -227,6 +227,7 @@ import {
   subscribePlaylist,
   deletePlaylist,
 } from '@/api/playlist';
+import { resizeImage, formatDate } from '@/utils/filters';
 import { getTrackDetail } from '@/api/track';
 import { isAccountLoggedIn } from '@/utils/auth';
 import nativeAlert from '@/utils/nativeAlert';

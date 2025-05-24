@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="info">
-          {{ mv.data.playCount | formatPlayCount }} Views ·
+          {{ formatPlayCount(mv.data.playCount) }} Views ·
           {{ mv.data.publishTime }}
         </div>
       </div>
@@ -47,6 +47,7 @@ import { mvDetail, mvUrl, simiMv, likeAMV } from '@/api/mv';
 import { isAccountLoggedIn } from '@/utils/auth';
 import NProgress from 'nprogress';
 import locale from '@/locale';
+import { formatPlayCount } from '@/utils/filters';
 import '@/assets/css/plyr.css';
 import Plyr from 'plyr';
 

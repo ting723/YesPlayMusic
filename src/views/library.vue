@@ -221,6 +221,7 @@ import { uploadSong } from '@/api/user';
 import { getLyric } from '@/api/track';
 import NProgress from 'nprogress';
 import locale from '@/locale';
+import { resizeImage } from '@/utils/filters';
 
 import ContextMenu from '@/components/ContextMenu.vue';
 import TrackList from '@/components/TrackList.vue';
