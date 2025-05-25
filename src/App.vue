@@ -45,6 +45,7 @@ import Toast from './components/Toast.vue';
 import { isAccountLoggedIn, isLooseLoggedIn } from '@/utils/auth';
 import Lyrics from './views/lyrics.vue';
 import { mapState } from 'vuex';
+import { provide } from 'vue';
 
 export default {
   name: 'App',
@@ -95,6 +96,9 @@ export default {
     window.addEventListener('keydown', this.handleKeydown);
     this.fetchData();
   },
+  mounted() {
+    provide('scrollToTop', this.scrollToTop);
+  },
   methods: {
     handleKeydown(e) {
       if (e.code === 'Space') {
@@ -118,6 +122,9 @@ export default {
     },
     handleScroll() {
       this.$refs.scrollbar.handleScroll();
+    },
+    scrollToTop() {
+      this.$refs.main.scrollTo({ top: 0 });
     },
   },
 };

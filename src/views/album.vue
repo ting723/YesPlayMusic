@@ -100,8 +100,8 @@
     <div v-if="filteredMoreAlbums.length !== 0" class="more-by">
       <div class="section-title">
         More by
-        <router-link :to="`/artist/${album.artist.id}`"
-          >{{ album.artist.name }}
+        <router-link :to="`/artist/${album.artist.id}`">
+          {{ album.artist.name }}
         </router-link>
       </div>
       <div>
@@ -130,7 +130,7 @@
           ? $t('contextMenu.removeFromLibrary')
           : $t('contextMenu.saveToLibrary')
       }}</div>
-      <div class="item">{{ $t('contextMenu.addToPlaylist') }}</div>
+      <div class="item" @click="addToPlaylist">{{ $t('contextMenu.addToPlaylist') }}</div>
       <div class="item" @click="copyUrl(album.id)">{{
         $t('contextMenu.copyUrl')
       }}</div>
@@ -141,8 +141,10 @@
   </div>
 </template>
 
-<script>
-import { mapMutations, mapActions, mapState } from 'vuex';
+<script setup>
+import { ref, computed, onMounted, onActivated, inject } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import { getArtistAlbum } from '@/api/artist';
 import { getTrackDetail } from '@/api/track';
 import { getAlbum, albumDynamicDetail, likeAAlbum } from '@/api/album';
@@ -166,170 +168,184 @@ import CoverRow from '@/components/CoverRow.vue';
 import Cover from '@/components/Cover.vue';
 import Modal from '@/components/Modal.vue';
 
-export default {
-  name: 'Album',
-  components: {
-    Cover,
-    ButtonTwoTone,
-    TrackList,
-    ExplicitSymbol,
-    CoverRow,
-    Modal,
-    ContextMenu,
-  },
-  beforeRouteUpdate(to, from, next) {
-    this.show = false;
-    this.loadData(to.params.id);
-    next();
-  },
-  data() {
-    return {
-      show: false,
-      album: {
-        id: 0,
-        picUrl: '',
-        artist: {
-          id: 0,
-        },
-      },
-      tracks: [],
-      showFullDescription: false,
-      moreAlbums: [],
-      dynamicDetail: {},
-      subtitle: '',
-      title: '',
-    };
-  },
-  computed: {
-    ...mapState(['player', 'data']),
-    albumTime() {
-      let time = 0;
-      this.tracks.map(t => (time = time + t.dt));
-      return time;
-    },
-    filteredMoreAlbums() {
-      let moreAlbums = this.moreAlbums.filter(a => a.id !== this.album.id);
-      let realAlbums = moreAlbums.filter(a => a.type === '专辑');
-      let eps = moreAlbums.filter(
-        a => a.type === 'EP' || (a.type === 'EP/Single' && a.size > 1)
-      );
-      let restItems = moreAlbums.filter(
-        a =>
-          realAlbums.find(a1 => a1.id === a.id) === undefined &&
-          eps.find(a1 => a1.id === a.id) === undefined
-      );
-      if (realAlbums.length === 0) {
-        return [...realAlbums, ...eps, ...restItems].slice(0, 5);
-      } else {
-        return [...realAlbums, ...restItems].slice(0, 5);
-      }
-    },
-    tracksByDisc() {
-      if (this.tracks.length <= 1) return [];
-      const pairs = toPairs(groupBy(this.tracks, 'cd'));
-      return sortBy(pairs, p => p[0]).map(items => ({
-        disc: items[0],
-        tracks: items[1],
-      }));
-    },
-  },
-  created() {
-    this.loadData(this.$route.params.id);
-  },
-  methods: {
-    ...mapMutations(['appendTrackToPlayerList']),
-    ...mapActions(['playFirstTrackOnList', 'playTrackOnListByID', 'showToast']),
-    playAlbumByID(id, trackID = 'first') {
-      this.$store.state.player.playAlbumByID(id, trackID);
-    },
-    likeAlbum(toast = false) {
-      if (!isAccountLoggedIn()) {
-        this.showToast(locale.t('toast.needToLogin'));
-        return;
-      }
-      likeAAlbum({
-        id: this.album.id,
-        t: this.dynamicDetail.isSub ? 0 : 1,
-      })
-        .then(data => {
-          if (data.code === 200) {
-            this.dynamicDetail.isSub = !this.dynamicDetail.isSub;
-            if (toast === true)
-              this.showToast(
-                this.dynamicDetail.isSub ? '已保存到音乐库' : '已从音乐库删除'
-              );
-          }
-        })
-        .catch(error => {
-          this.showToast(`${error.response.data.message || error}`);
-        });
-    },
-    formatTitle() {
-      let splitTitle = splitSoundtrackAlbumTitle(this.album.name);
-      let splitTitle2 = splitAlbumTitle(splitTitle.title);
-      this.title = splitTitle2.title;
-      if (splitTitle.subtitle !== '' && splitTitle2.subtitle !== '') {
-        this.subtitle = splitTitle.subtitle + ' · ' + splitTitle2.subtitle;
-      } else {
-        this.subtitle =
-          splitTitle.subtitle === ''
-            ? splitTitle2.subtitle
-            : splitTitle.subtitle;
-      }
-    },
-    loadData(id) {
-      setTimeout(() => {
-        if (!this.show) NProgress.start();
-      }, 1000);
-      getAlbum(id).then(data => {
-        this.album = data.album;
-        this.tracks = data.songs;
-        this.formatTitle();
-        NProgress.done();
-        this.show = true;
+const store = useStore();
+const route = useRoute();
+const router = useRouter();
+const scrollToTop = inject('scrollToTop');
 
-        // to get explicit mark
-        let trackIDs = this.tracks.map(t => t.id);
-        getTrackDetail(trackIDs.join(',')).then(data => {
-          this.tracks = data.songs;
-        });
-
-        // get more album by this artist
-        getArtistAlbum({ id: this.album.artist.id, limit: 100 }).then(data => {
-          this.moreAlbums = data.hotAlbums;
-        });
-      });
-      albumDynamicDetail(id).then(data => {
-        this.dynamicDetail = data;
-      });
-    },
-    toggleFullDescription() {
-      this.showFullDescription = !this.showFullDescription;
-      if (this.showFullDescription) {
-        this.$store.commit('enableScrolling', false);
-      } else {
-        this.$store.commit('enableScrolling', true);
-      }
-    },
-    openMenu(e) {
-      this.$refs.albumMenu.openMenu(e);
-    },
-    copyUrl(id) {
-      let showToast = this.showToast;
-      this.$copyText(`/proxy/https://music.163.com/#/album?id=${id}`)
-        .then(function () {
-          showToast(locale.t('toast.copied'));
-        })
-        .catch(error => {
-          showToast(`${locale.t('toast.copyFailed')}${error}`);
-        });
-    },
-    openInBrowser(id) {
-      const url = `/proxy/https://music.163.com/#/album?id=${id}`;
-      window.open(url);
-    },
+const show = ref(false);
+const album = ref({
+  id: 0,
+  picUrl: '',
+  artist: {
+    id: 0,
   },
+});
+const tracks = ref([]);
+const showFullDescription = ref(false);
+const moreAlbums = ref([]);
+const dynamicDetail = ref({});
+const subtitle = ref('');
+const title = ref('');
+const albumMenu = ref(null);
+
+const albumTime = computed(() => {
+  let time = 0;
+  tracks.value.map(t => (time = time + t.dt));
+  return time;
+});
+
+const filteredMoreAlbums = computed(() => {
+  let moreAlbumsFiltered = moreAlbums.value.filter(a => a.id !== album.value.id);
+  let realAlbums = moreAlbumsFiltered.filter(a => a.type === '专辑');
+  let eps = moreAlbumsFiltered.filter(
+    a => a.type === 'EP' || (a.type === 'EP/Single' && a.size > 1)
+  );
+  let restItems = moreAlbumsFiltered.filter(
+    a =>
+      realAlbums.find(a1 => a1.id === a.id) === undefined &&
+      eps.find(a1 => a1.id === a.id) === undefined
+  );
+  if (realAlbums.length === 0) {
+    return [...realAlbums, ...eps, ...restItems].slice(0, 5);
+  } else {
+    return [...realAlbums, ...restItems].slice(0, 5);
+  }
+});
+
+const tracksByDisc = computed(() => {
+  if (tracks.value.length <= 1) return [];
+  const pairs = toPairs(groupBy(tracks.value, 'cd'));
+  return sortBy(pairs, p => p[0]).map(items => ({
+    disc: items[0],
+    tracks: items[1],
+  }));
+});
+
+const playAlbumByID = (id, trackID = 'first') => {
+  store.state.player.playAlbumByID(id, trackID);
 };
+
+const likeAlbum = (toast = false) => {
+  if (!isAccountLoggedIn()) {
+    store.dispatch('showToast', locale.t('toast.needToLogin'));
+    return;
+  }
+  likeAAlbum({
+    id: album.value.id,
+    t: dynamicDetail.value.isSub ? 0 : 1,
+  })
+    .then(data => {
+      if (data.code === 200) {
+        dynamicDetail.value.isSub = !dynamicDetail.value.isSub;
+        if (toast === true)
+          store.dispatch(
+            'showToast',
+            dynamicDetail.value.isSub ? '已保存到音乐库' : '已从音乐库删除'
+          );
+      }
+    })
+    .catch(error => {
+      store.dispatch(
+        'showToast',
+        `${error.response.data.message || error}`
+      );
+    });
+};
+
+const formatTitle = () => {
+  let splitTitle = splitSoundtrackAlbumTitle(album.value.name);
+  let splitTitle2 = splitAlbumTitle(splitTitle.title);
+  title.value = splitTitle2.title;
+  if (splitTitle.subtitle !== '' && splitTitle2.subtitle !== '') {
+    subtitle.value = splitTitle.subtitle + ' · ' + splitTitle2.subtitle;
+  } else {
+    subtitle.value =
+      splitTitle.subtitle === ''
+        ? splitTitle2.subtitle
+        : splitTitle.subtitle;
+  }
+};
+
+const loadData = (id) => {
+  setTimeout(() => {
+    if (!show.value) NProgress.start();
+  }, 1000);
+  getAlbum(id).then(data => {
+    album.value = data.album;
+    tracks.value = data.songs;
+    formatTitle();
+    NProgress.done();
+    show.value = true;
+
+    // to get explicit mark
+    let trackIDs = tracks.value.map(t => t.id);
+    getTrackDetail(trackIDs.join(',')).then(data => {
+      tracks.value = data.songs;
+    });
+
+    // get more album by this artist
+    getArtistAlbum({ id: album.value.artist.id, limit: 100 }).then(data => {
+      moreAlbums.value = data.hotAlbums;
+    });
+  });
+  albumDynamicDetail(id).then(data => {
+    dynamicDetail.value = data;
+  });
+};
+
+const toggleFullDescription = () => {
+  showFullDescription.value = !showFullDescription.value;
+  if (showFullDescription.value) {
+    store.commit('enableScrolling', false);
+  } else {
+    store.commit('enableScrolling', true);
+  }
+};
+
+const openMenu = (e) => {
+  albumMenu.value.openMenu(e);
+};
+
+const copyUrl = (id) => {
+  let showToast = store.dispatch;
+  navigator.clipboard.writeText(`/proxy/https://music.163.com/#/album?id=${id}`)
+    .then(function () {
+      showToast('showToast', locale.t('toast.copied'));
+    })
+    .catch(error => {
+      showToast('showToast', `${locale.t('toast.copyFailed')}${error}`);
+    });
+};
+
+const openInBrowser = (id) => {
+  const url = `/proxy/https://music.163.com/#/album?id=${id}`;
+  window.open(url);
+};
+
+const addToPlaylist = () => {
+  store.commit('Modal/show', 'addTrackToPlaylist');
+  store.commit('Modal/updateModal', { objType: 'album', id: album.value.id, trackIDs: tracks.value.map(t => t.id) });
+};
+
+onMounted(() => {
+  loadData(route.params.id);
+});
+
+onActivated(() => {
+  loadData(route.params.id);
+});
+
+onBeforeRouteUpdate((to, from, next) => {
+  show.value = false;
+  loadData(to.params.id);
+  next();
+});
+
+// Expose variables and functions to the template
+// show, album, tracks, showFullDescription, moreAlbums, dynamicDetail, subtitle, title, albumMenu
+// albumTime, filteredMoreAlbums, tracksByDisc
+// playAlbumByID, likeAlbum, formatTitle, loadData, toggleFullDescription, openMenu, copyUrl, openInBrowser, addToPlaylist
 </script>
 
 <style lang="scss" scoped>

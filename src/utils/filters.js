@@ -88,7 +88,6 @@ export function formatAlbumType(type, album) {
 export function resizeImage(imgUrl, size = 512) {
   if (!imgUrl) return '';
   let httpsImgUrl = imgUrl;
-  console.log(imgUrl);
   if (imgUrl.slice(0, 7) == '/proxy/') {
     return imgUrl;
   }
