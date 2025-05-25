@@ -274,6 +274,8 @@ export default class {
     setInterval(() => {
       if (this._howler === null) return;
       this._progress = this._howler.seek();
+      console.log('progress:', this._progress);
+      localStorage.setItem('player', this);
       localStorage.setItem('playerCurrentTrackTime', this._progress);
       if (isCreateMpris) {
         ipcRenderer?.send('playerCurrentTrackTime', this._progress);
