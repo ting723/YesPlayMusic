@@ -130,7 +130,9 @@
           ? $t('contextMenu.removeFromLibrary')
           : $t('contextMenu.saveToLibrary')
       }}</div>
-      <div class="item" @click="addToPlaylist">{{ $t('contextMenu.addToPlaylist') }}</div>
+      <div class="item" @click="addToPlaylist">{{
+        $t('contextMenu.addToPlaylist')
+      }}</div>
       <div class="item" @click="copyUrl(album.id)">{{
         $t('contextMenu.copyUrl')
       }}</div>
@@ -196,7 +198,9 @@ const albumTime = computed(() => {
 });
 
 const filteredMoreAlbums = computed(() => {
-  let moreAlbumsFiltered = moreAlbums.value.filter(a => a.id !== album.value.id);
+  let moreAlbumsFiltered = moreAlbums.value.filter(
+    a => a.id !== album.value.id
+  );
   let realAlbums = moreAlbumsFiltered.filter(a => a.type === '专辑');
   let eps = moreAlbumsFiltered.filter(
     a => a.type === 'EP' || (a.type === 'EP/Single' && a.size > 1)
@@ -246,10 +250,7 @@ const likeAlbum = (toast = false) => {
       }
     })
     .catch(error => {
-      store.dispatch(
-        'showToast',
-        `${error.response.data.message || error}`
-      );
+      store.dispatch('showToast', `${error.response.data.message || error}`);
     });
 };
 
@@ -261,13 +262,11 @@ const formatTitle = () => {
     subtitle.value = splitTitle.subtitle + ' · ' + splitTitle2.subtitle;
   } else {
     subtitle.value =
-      splitTitle.subtitle === ''
-        ? splitTitle2.subtitle
-        : splitTitle.subtitle;
+      splitTitle.subtitle === '' ? splitTitle2.subtitle : splitTitle.subtitle;
   }
 };
 
-const loadData = (id) => {
+const loadData = id => {
   setTimeout(() => {
     if (!show.value) NProgress.start();
   }, 1000);
@@ -303,13 +302,14 @@ const toggleFullDescription = () => {
   }
 };
 
-const openMenu = (e) => {
+const openMenu = e => {
   albumMenu.value.openMenu(e);
 };
 
-const copyUrl = (id) => {
+const copyUrl = id => {
   let showToast = store.dispatch;
-  navigator.clipboard.writeText(`/proxy/https://music.163.com/#/album?id=${id}`)
+  navigator.clipboard
+    .writeText(`/proxy/https://music.163.com/#/album?id=${id}`)
     .then(function () {
       showToast('showToast', locale.t('toast.copied'));
     })
@@ -318,14 +318,18 @@ const copyUrl = (id) => {
     });
 };
 
-const openInBrowser = (id) => {
+const openInBrowser = id => {
   const url = `/proxy/https://music.163.com/#/album?id=${id}`;
   window.open(url);
 };
 
 const addToPlaylist = () => {
   store.commit('Modal/show', 'addTrackToPlaylist');
-  store.commit('Modal/updateModal', { objType: 'album', id: album.value.id, trackIDs: tracks.value.map(t => t.id) });
+  store.commit('Modal/updateModal', {
+    objType: 'album',
+    id: album.value.id,
+    trackIDs: tracks.value.map(t => t.id),
+  });
 };
 
 onMounted(() => {
