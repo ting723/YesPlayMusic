@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    ports:
+      - "3001:80"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    depends_on:
+      - ncm_api
+    environment:
+      - VUE_APP_NETEASE_API_URL=http://ncm_api:3000
+    networks:
+      - yesplaymusic_network    
+
+  ncm_api:
+    image: ncm-api:v1.0
+    ports:
+      - "3000:3000"
+    networks:
+      - yesplaymusic_network
+
+networks:
+  yesplaymusic_network:
+    driver: bridge
