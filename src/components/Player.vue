@@ -201,8 +201,10 @@ const player = computed(() => store.state.player);
 let progressUpdateTimer = null;
 
 const startProgressUpdate = () => {
+  console.log('开始更新进度条');
+  clearInterval(progressUpdateTimer);
   progressUpdateTimer = setInterval(() => {
-    if (player.value._howler) {
+    if (player.value?._howler?.playing()) {
       const currentTime = player.value._howler.seek();
       player.value.progress = currentTime;
     }
@@ -218,6 +220,7 @@ const stopProgressUpdate = () => {
 watch(
   () => player.value.playing,
   newPlayingState => {
+    console.log('playing 状态变化:', newPlayingState);
     if (newPlayingState) {
       startProgressUpdate();
     } else {
