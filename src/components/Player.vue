@@ -20,6 +20,7 @@
         :tooltip-formatter="formatTrackTime"
         :lazy="true"
         :silent="true"
+        @change="updateProgress"
       ></vue-slider>
     </div>
     <div class="controls">
@@ -178,7 +179,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import '@/assets/css/slider.css';
@@ -195,6 +196,41 @@ const route = useRoute();
 const router = useRouter();
 
 const player = computed(() => store.state.player);
+
+// 添加定时器相关逻辑
+let progressUpdateTimer = null;
+
+const startProgressUpdate = () => {
+  progressUpdateTimer = setInterval(() => {
+    if (player.value._howler) {
+      const currentTime = player.value._howler.seek();
+      player.value.progress = currentTime;
+    }
+  }, 1000); // 每秒更新一次
+};
+
+const stopProgressUpdate = () => {
+  clearInterval(progressUpdateTimer);
+  progressUpdateTimer = null;
+};
+
+// 在播放状态改变时启动或停止定时器
+watch(
+  () => player.value.playing,
+  (newPlayingState) => {
+    if (newPlayingState) {
+      startProgressUpdate();
+    } else {
+      stopProgressUpdate();
+    }
+  }
+);
+
+// 在组件卸载时清除定时器
+onUnmounted(() => {
+  stopProgressUpdate();
+});
+
 const settings = computed(() => store.state.settings);
 const data = computed(() => store.state.data);
 
@@ -261,6 +297,13 @@ const switchReversed = () => {
 
 const mute = () => {
   player.value.mute();
+};
+
+const updateProgress = (value) => {
+  player.value._progress = value;
+  if (player.value._howler) {
+    player.value._howler.seek(value);
+  }
 };
 
 // No need to convert formatTrackTime, hasList, goToList as they are imported functions
