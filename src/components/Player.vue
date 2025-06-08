@@ -217,7 +217,7 @@ const stopProgressUpdate = () => {
 // 在播放状态改变时启动或停止定时器
 watch(
   () => player.value.playing,
-  (newPlayingState) => {
+  newPlayingState => {
     if (newPlayingState) {
       startProgressUpdate();
     } else {
@@ -299,7 +299,7 @@ const mute = () => {
   player.value.mute();
 };
 
-const updateProgress = (value) => {
+const updateProgress = value => {
   player.value._progress = value;
   if (player.value._howler) {
     player.value._howler.seek(value);
