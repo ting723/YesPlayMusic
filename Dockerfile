@@ -1,5 +1,5 @@
 FROM guergeiro/pnpm:22-10 as build
-ENV VUE_APP_NETEASE_API_URL=/api
+ENV VITE_NETEASE_API_URL=/api 
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm config set electron_mirror https://npmmirror.com/mirrors/electron/ && \
